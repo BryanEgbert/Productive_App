@@ -10,7 +10,6 @@ namespace FrontEnd.Components
         public int Minutes { get; set; } = 1;
         public int Seconds { get; set; } = 1;
         private System.Timers.Timer aTimer;
-        public TimeSpan parsed = new TimeSpan(13, 1, 1);
         public void StartTimer() 
         {
             aTimer = new System.Timers.Timer(1000);
