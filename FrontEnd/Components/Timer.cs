@@ -33,12 +33,12 @@ namespace FrontEnd.Components
             {
                 Minutes -= 1;
                 Seconds = 59;
-            } else if(Minutes == 0 && Seconds == 0 && Hours > 0)
+            } else if (Minutes == 0 && Seconds == 0 && Hours > 0)
             {
                 Hours -= 1;
                 Minutes = 59;
                 Seconds = 59;
-            } else if(Hours == 0 && Minutes == 0 && Seconds == 0)
+            } else if (Hours == 0 && Minutes == 0 && Seconds == 0)
             {
                 aTimer.Stop();
                 aTimer.Dispose();
