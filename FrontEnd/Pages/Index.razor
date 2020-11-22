@@ -4,5 +4,6 @@
 <h1>Timer</h1>
 
 <p>@Hours.ToString("00"): @Minutes.ToString("00"): @Seconds.ToString("00")</p>
-<button @onclick="StartTimer">Start</button>
+<button @onclick="StartTimer" disabled=@StartButtonState>Start</button>
+<button @onclick="StopTimer" disabled=@StopButtonState>Stop</button>
 
