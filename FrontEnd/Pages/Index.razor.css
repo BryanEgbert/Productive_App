@@ -1,8 +1,14 @@
 .timer {
+    margin-top: 5px;
+    margin-bottom: 5px;
     text-align: center;
-    font-size: 50em;
+    font-size: 5rem;
     font-weight: bold;
 }
+
 button {
-    margin-right: 0px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+    padding: 1rem;
 }

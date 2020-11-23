@@ -1,8 +1,6 @@
 ﻿@page "/"
 @inherits FrontEnd.Components.Timer
 
-<h1>Timer</h1>
-
 <p class="timer">@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
 @foreach (var timer in timerCollections)
 {
