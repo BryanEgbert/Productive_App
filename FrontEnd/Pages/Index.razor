@@ -3,7 +3,12 @@
 
 <h1>Timer</h1>
 
-<p>@Hours.ToString("00"): @Minutes.ToString("00"): @Seconds.ToString("00")</p>
-<button @onclick="StartTimer" disabled=@StartButtonState>Start</button>
-<button @onclick="StopTimer" disabled=@StopButtonState>Stop</button>
+<p class="timer">@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
+@foreach (var timer in timerCollections)
+{
+    <button @onclick="() => SetTimer(timer.Id)">@timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")</button>
+}
+<br/>
+<button @onclick="StartTimer" disabled=@StartButtonIsDisabled>Start</button>
+<button @onclick="StopTimer" disabled=@StopButtonIsDisabled>Stop</button>
 
