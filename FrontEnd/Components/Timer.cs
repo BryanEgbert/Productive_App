@@ -17,7 +17,8 @@ namespace FrontEnd.Components
         public List<TimerStructure> timerCollections = new List<TimerStructure>()
         {
             new TimerStructure(){ Id = 1, Hours = 0, Minutes = 30, Seconds = 0 },
-            new TimerStructure(){ Id = 2, Hours = 1, Minutes = 0, Seconds = 0 }
+            new TimerStructure(){ Id = 2, Hours = 1, Minutes = 0, Seconds = 0 },
+            new TimerStructure(){ Id = 3, Hours = 1, Minutes = 0, Seconds = 0 },
         };
 
         public int Index { get; private set; }
@@ -70,7 +71,7 @@ namespace FrontEnd.Components
                 aTimer.Dispose();
 
                 StopButtonIsDisabled = true;
-                StartButtonIsDisabled = false;
+                StartButtonIsDisabled = true;
             } else
             {
                 Seconds -= 1;
