@@ -1,12 +1,20 @@
 ﻿@page "/"
 @inherits FrontEnd.Components.Timer
 
-<p class="timer">@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
-@foreach (var timer in timerCollections)
-{
-    <button @onclick="() => SetTimer(timer.Id)">@timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")</button>
-}
-<br/>
-<button @onclick="StartTimer" disabled=@StartButtonIsDisabled>Start</button>
-<button @onclick="StopTimer" disabled=@StopButtonIsDisabled>Stop</button>
+<div class="page">
+    <div class="timer">
+        <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
+        <div class="timerBtn">
+            <button class="start-btn" @onclick="StartTimer" disabled=@StartButtonIsDisabled>Start</button>
+            <button class="stop-btn" @onclick="StopTimer" disabled=@StopButtonIsDisabled>Stop</button>
+        </div>
+    </div>
 
+    <div class="setTimer">
+        <h3>Set Timer</h3>
+        @foreach (TimerStructure timer in timerCollections)
+        {
+            <button class="setTimerBtn" @onclick="() => SetTimer(timer.Id)">@timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")</button>
+        }
+    </div>
+</div>
