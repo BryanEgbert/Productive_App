@@ -27,6 +27,7 @@ namespace FrontEnd.Components
         public int Seconds { get; set; } = 0;
         public bool StopButtonIsDisabled { get; set; } = true;
         public bool StartButtonIsDisabled { get; set; } = false;
+        public bool SetTimerButtonIsDisabled { get; set; } = false;
         private static System.Timers.Timer aTimer;
         public void SetTimer(int value)
         {
@@ -42,6 +43,7 @@ namespace FrontEnd.Components
 
             StopButtonIsDisabled = true;
             StartButtonIsDisabled = false;
+            SetTimerButtonIsDisabled = false;
 
             Console.WriteLine($"{Hours}:{Minutes}:{Seconds}");
         }
@@ -53,6 +55,7 @@ namespace FrontEnd.Components
 
             StopButtonIsDisabled = false;   
             StartButtonIsDisabled = true;
+            SetTimerButtonIsDisabled = true;
         }
         public void CountDownTimer(Object source, ElapsedEventArgs e)
         {
@@ -71,7 +74,8 @@ namespace FrontEnd.Components
                 aTimer.Dispose();
 
                 StopButtonIsDisabled = true;
-                StartButtonIsDisabled = true;
+                StartButtonIsDisabled = false;
+                SetTimerButtonIsDisabled = false;
             } else
             {
                 Seconds -= 1;
