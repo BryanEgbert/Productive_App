@@ -12,9 +12,13 @@
 
     <div class="setTimer">
         <h3>Set Timer</h3>
+        <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
         {
-            <button class="setTimerBtn" @onclick="() => SetTimer(timer.Id)">@timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")</button>
+            <button disabled=@SetTimerButtonIsDisabled @onclick="() => SetTimer(timer.Id)">
+                @timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")
+            </button>
         }
+        </div>
     </div>
 </div>
