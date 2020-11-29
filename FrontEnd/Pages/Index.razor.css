@@ -1,7 +1,10 @@
 button {
     margin-bottom: 5px;
-    align-items: center;
-    padding: 1rem;
+    padding: 0px;
+    border-radius: 10px;
+    font-size: 1em;
+    text-align: center;
+    align-self: center;
 }
 .page {
     display: grid;
@@ -23,7 +26,7 @@ button {
 .timer p{
     text-align: center;
     margin-bottom: 0.5em;
-    margin-top: 0.5em;
+    margin-top: 1em;
     font-size: 10em;
     font-weight: 900;
 }
@@ -33,9 +36,9 @@ button {
 }
 .timerBtn button {
     width: 9rem;
+    height: 3em;
     background-color: lightgreen;
     font-weight: bold;
-    border: none;
 }
 .timerBtn button.stop-btn{
     margin-left: 2.5rem;
@@ -49,18 +52,17 @@ button {
     grid-row-end: 2;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
     text-align: center;
     background-color: #f7f7f7;
     overflow: auto;
 }
 .setTimerBtn button{
-    width: 10rem;
-    height: 10rem;
-    text-align: center;
-    padding: 5rem 2.5rem;
+    width: 10em;
+    height: 10em;
     font-size: 1.2em;
     font-weight: bold;
-    align-self: center;
+    margin: 5px 5px;
 }
 
 @media only screen and (max-width: 895px) {
@@ -69,6 +71,7 @@ button {
         grid-template-columns: auto;
         grid-template-rows: 60vh 35px auto;
         -webkit-overflow-scrolling: touch;
+        overflow: hidden;
     }
     .timer{
         grid-column-start: 1;
@@ -93,8 +96,11 @@ button {
         grid-column-end: 2;
         text-align: center;
         margin: 0px;
+        overflow: hidden;
     }
-
+    .setTimer h3 {
+        position: sticky;
+    }
     .setTimer .setTimerBtn{
         text-align: center;
         background-color: #f7f7f7;
@@ -107,8 +113,46 @@ button {
         font-size: 1.2em;
         font-weight: bold;
         margin: 0 5px;
-        padding: 0px 1.5em;
         width: 10em;
-        height: 5em;
+        height: 6em;
+    }
+    /* Ipad screen display */
+    @media only screen and (min-height: 1024px) {
+        .setTimerBtn button {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 5px;
+            width: 10em;
+            height: 8em;
+        }
+        .timer p{
+            text-align: center;
+            margin-bottom: 1em;
+            margin-top: 1.2em;
+            font-size: 10em;
+            font-weight: 900;
+        }
+    }
+    /* Iphone 5 screen display*/
+    @media only screen and (max-width: 320px) {
+        .setTimerBtn button {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 5px;
+            width: 10em;
+            height: 5em;
+        }
+        .timer p{
+            text-align: center;
+            margin-bottom: 1em;
+            margin-top: 1.2em;
+            font-size: 4em;
+            font-weight: 900;
+        }
+        .timerBtn button{
+            width: 7em;
+            height: 2em;
+            font-weight: bold;
+        }
     }
 }
