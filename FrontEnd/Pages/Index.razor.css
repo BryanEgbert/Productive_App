@@ -6,6 +6,12 @@ button {
     text-align: center;
     align-self: center;
 }
+
+a:link, a:visited{
+    text-decoration: none;
+    color: blue;
+} 
+
 .page {
     display: grid;
     grid-template-columns: 75vw auto;
@@ -52,13 +58,12 @@ button {
     grid-row-end: 2;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     text-align: center;
     background-color: #f7f7f7;
-    overflow: auto;
+    overflow-x: hidden;
 }
 .setTimerBtn button{
-    width: 10em;
+    width: 9em;
     height: 10em;
     font-size: 1.2em;
     font-weight: bold;
