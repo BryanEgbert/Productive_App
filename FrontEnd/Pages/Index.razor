@@ -12,7 +12,7 @@
 
     <div class="setTimer">
         <h3>Set Timer</h3>
-        <a href="">Add Timer +</a>
+        <a href="" @onclick="showModal">Add Timer +</a>
         <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
         {
@@ -22,5 +22,14 @@
         }
         </div>
     </div>
-    <PopUpPage Title="Create Costum Timer"></PopUpPage>
+    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened"></PopUpPage>
 </div>
+
+@code {
+    private bool isOpened = false;
+    private void showModal()
+    {
+        isOpened = true;
+        System.Console.WriteLine($"{isOpened}");
+    }
+}

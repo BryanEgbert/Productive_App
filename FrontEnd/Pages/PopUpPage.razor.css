@@ -6,8 +6,6 @@
     height: 100%;
     background-color: rgba(0,0,0,0.5);
     box-shadow: 5px 10px;
-    display: flex;
-    flex-direction: column;
 }
 .modal-content {
     width: 450px;
@@ -30,3 +28,22 @@
     cursor: pointer;
 }
 
+.show {
+    display: flex;
+    flex-direction: column;
+    animation-name: show-modal;
+    animation-duration: 1s ease-in-out;
+}
+.hide {
+    display: none;
+    animation-name: hide-modal;
+}
+
+@keyframes show-modal {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+@keyframes hide-modal {
+    from {opacity: 1}
+    to {opacity: 0}
+}
