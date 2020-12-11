@@ -1,9 +1,18 @@
 @inherits Components.Modal
+@inject NavigationManager NavigationManager;
 
 <div class="modal-page @cssModal">
     <div class="modal-content">
-        <h5>@Title <span @onclick="hideModal">X</span></h5>
+        <h5>@Title <span @onclick="refreshPage">X</span></h5>
         <p>00:00:00</p>
         <button>Add</button>
     </div>
 </div>
+
+@code {
+    private void refreshPage()
+    {
+        IsOpened = false;
+        NavigationManager.NavigateTo("/", forceLoad: true);
+    }
+}

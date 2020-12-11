@@ -10,11 +10,5 @@ namespace FrontEnd.Components
         public string cssModal => IsOpened ? "show" : "hide"; 
         [Parameter]
         public string Title { get; set; }
-
-        public void hideModal()
-        {
-            IsOpened = false;
-            Console.WriteLine($"{cssModal}");
-        }
     }
 }
