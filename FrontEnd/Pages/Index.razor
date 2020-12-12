@@ -22,7 +22,7 @@
         }
         </div>
     </div>
-    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened"></PopUpPage>
+    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened" OnExit="hideModal"></PopUpPage>
 </div>
 
 @code {
@@ -31,5 +31,9 @@
     {
         isOpened = true;
         System.Console.WriteLine($"{isOpened}");
+    }
+    private void hideModal()
+    {
+        isOpened = false;
     }
 }
