@@ -1,10 +1,38 @@
 @inherits Components.Modal
-@inject NavigationManager NavigationManager;
 
 <div class="modal-page @cssModal">
     <div class="modal-content">
-        <h5>@Title <span @onclick="OnExit">X</span></h5>
-        <p>00:00:00</p>
-        <button>Add</button>
+        <h5>@Title <span @onclick="@OnExit">X</span></h5>
+        <p>
+            <input type="number" id="hoursInput" 
+                value="@Hours.ToString("00")" 
+                min="0" max="24" 
+                @onchange="@OnHoursChange">:
+            <input type="number" id="minutesInput" 
+                value="@Minutes.ToString("00")" 
+                min="0" max="59" 
+                @onchange="@OnMinutesChange">:
+            <input type="number" id="secondsInput" 
+                value="@Seconds.ToString("00")" 
+                min="0" max="59" 
+                @onchange="@OnSecondsChange">
+        </p>
+        <br/>
+        <button @onclick="@OnAdd">Add</button>
     </div>
 </div>
+
+@code {
+    [Parameter]
+    public int Hours { get; set; } = 0;
+    [Parameter]
+    public int Minutes { get; set; } = 0;
+    [Parameter]
+    public int Seconds { get; set; } = 0;
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnHoursChange { get; set; }
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnMinutesChange { get; set; }
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnSecondsChange { get; set; }
+}

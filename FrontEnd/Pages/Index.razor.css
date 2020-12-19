@@ -101,7 +101,7 @@ a:link, a:visited{
         grid-column-end: 2;
         text-align: center;
         margin: 0px;
-        overflow: hidden;
+        overflow: auto;
     }
     .setTimer h3 {
         position: sticky;
@@ -109,7 +109,8 @@ a:link, a:visited{
     .setTimer .setTimerBtn{
         text-align: center;
         background-color: #f7f7f7;
-        overflow: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
         width: 100vw;
         display: flex;
         flex-direction: row;
@@ -119,7 +120,7 @@ a:link, a:visited{
         font-weight: bold;
         margin: 0 5px;
         width: 10em;
-        height: 6em;
+        height: 5em;
     }
     /* Ipad screen display */
     @media only screen and (min-height: 1024px) {

@@ -11,6 +11,8 @@ namespace FrontEnd.Components
         public bool IsOpened { get; set; }
         [Parameter]
         public EventCallback<MouseEventArgs> OnExit { get; set; }
+        [Parameter]
+        public EventCallback OnAdd { get; set; }
         public string cssModal => IsOpened ? "show" : "hide"; 
     }
 }

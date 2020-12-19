@@ -8,6 +8,20 @@
     box-shadow: 5px 10px;
 }
 
+p, input {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+input, input:focus {
+    width: 1.5em;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    padding: 0px;
+}
+
 .modal-content {
     width: 450px;
     display: inline-block;
