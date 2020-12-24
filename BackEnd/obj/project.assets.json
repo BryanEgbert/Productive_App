@@ -60,6 +60,18 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Grpc.AspNetCore.Web/2.34.0": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Grpc.AspNetCore.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.AspNetCore.Web.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Grpc.Core.Api/2.32.0": {
         "type": "package",
         "dependencies": {
@@ -332,6 +344,24 @@
         "lib/netcoreapp3.0/Grpc.AspNetCore.Server.ClientFactory.dll",
         "lib/netcoreapp3.0/Grpc.AspNetCore.Server.ClientFactory.pdb",
         "lib/netcoreapp3.0/Grpc.AspNetCore.Server.ClientFactory.xml",
+        "packageIcon.png"
+      ]
+    },
+    "Grpc.AspNetCore.Web/2.34.0": {
+      "sha512": "l/jiOq3i28TehevioQdyCQe5L/tjswk1OQb68vpdcFAKu51zqzcnAghl7v9Bh0uhndyKuHqRj4AkAqrLGrpWwg==",
+      "type": "package",
+      "path": "grpc.aspnetcore.web/2.34.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "grpc.aspnetcore.web.2.34.0.nupkg.sha512",
+        "grpc.aspnetcore.web.nuspec",
+        "lib/net5.0/Grpc.AspNetCore.Web.dll",
+        "lib/net5.0/Grpc.AspNetCore.Web.pdb",
+        "lib/net5.0/Grpc.AspNetCore.Web.xml",
+        "lib/netcoreapp3.0/Grpc.AspNetCore.Web.dll",
+        "lib/netcoreapp3.0/Grpc.AspNetCore.Web.pdb",
+        "lib/netcoreapp3.0/Grpc.AspNetCore.Web.xml",
         "packageIcon.png"
       ]
     },
@@ -689,7 +719,8 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Grpc.AspNetCore >= 2.32.0"
+      "Grpc.AspNetCore >= 2.32.0",
+      "Grpc.AspNetCore.Web >= 2.34.0"
     ]
   },
   "packageFolders": {
@@ -732,6 +763,10 @@
           "Grpc.AspNetCore": {
             "target": "Package",
             "version": "[2.32.0, )"
+          },
+          "Grpc.AspNetCore.Web": {
+            "target": "Package",
+            "version": "[2.34.0, )"
           }
         },
         "imports": [
