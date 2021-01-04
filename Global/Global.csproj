@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\greet.proto" GrpcServices="Both" />
+  </ItemGroup>
+
 </Project>

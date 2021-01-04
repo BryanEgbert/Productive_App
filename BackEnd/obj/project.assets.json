@@ -273,6 +273,16 @@
         "runtime": {
           "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         }
+      },
+      "Global/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Global.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Global.dll": {}
+        }
       }
     }
   },
@@ -715,10 +725,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Global/1.0.0": {
+      "type": "project",
+      "path": "../Global/Global.csproj",
+      "msbuildProject": "../Global/Global.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Global >= 1.0.0",
       "Grpc.AspNetCore >= 2.32.0",
       "Grpc.AspNetCore.Web >= 2.34.0"
     ]
@@ -747,7 +763,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\bryan\\source\\repos\\Productivity_App\\Global\\Global.csproj": {
+              "projectPath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\Global\\Global.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

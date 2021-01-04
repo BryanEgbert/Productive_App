@@ -2,16 +2,10 @@ using System;
 using System.Timers;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+using Global;
 
 namespace FrontEnd.Components
 {
-    public class TimerStructure
-    {
-        public  int Id { get; set; }
-        public int Hours { get; set; }
-        public int Minutes { get; set; }
-        public int Seconds { get; set; }      
-    }
     public class Timer : ComponentBase
     {
         public List<TimerStructure> timerCollections = new List<TimerStructure>()
