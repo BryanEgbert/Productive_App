@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
-using BackEnd;
+using Global;
 
 namespace FrontEnd
 {

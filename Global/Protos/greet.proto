@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "BackEnd";
+option csharp_namespace = "Global";
 
 package greet;
 

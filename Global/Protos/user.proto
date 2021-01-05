@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "Global";
+
+package user;
+
+service User {
+    rpc GetUser (UserIdentity) returns (Username);
+}
+
+message UserIdentity {
+    int32 id = 1
+    string name = 2
+    string password = 3
+    string email = 4
+    repeated TimerStructure timer = 5 
+}
+
+message Username {
+    string name = 1
+}
