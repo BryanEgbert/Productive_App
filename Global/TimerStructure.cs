@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Global
+﻿namespace Global
 {
     public class TimerStructure
     {
