@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "Global";
+option csharp_namespace = "Global.Protos";
 
 package greet;
 

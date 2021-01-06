@@ -20,7 +20,11 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="..\Global\Protos\greet.proto" GrpcServices="Client" />
+    <Protobuf Include="..\Global\Protos\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>

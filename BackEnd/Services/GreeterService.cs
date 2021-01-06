@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Global;
+using Global.Protos;
 
 namespace BackEnd
 {
