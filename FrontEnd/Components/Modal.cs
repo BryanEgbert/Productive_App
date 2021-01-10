@@ -12,7 +12,7 @@ namespace FrontEnd.Components
         [Parameter]
         public EventCallback<MouseEventArgs> OnExit { get; set; }
         [Parameter]
-        public EventCallback OnAdd { get; set; }
+        public RenderFragment Content { get; set; }
         public string cssModal => IsOpened ? "show" : "hide"; 
     }
 }

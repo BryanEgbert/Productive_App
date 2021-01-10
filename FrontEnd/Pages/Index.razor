@@ -22,12 +22,26 @@
         }
         </div>
     </div>
-    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened" 
-        OnExit="hideModal" OnAdd="addTimer" 
-        OnHoursChange="(e => Hours = Convert.ToInt32(e.Value))"
-        OnMinutesChange="(e => Minutes = Convert.ToInt32(e.Value))"
-        OnSecondsChange="(e => Seconds = Convert.ToInt32(e.Value))"
-        Hours="@Hours" Minutes="@Minutes" Seconds="@Seconds"></PopUpPage>
+    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened" OnExit="hideModal">
+        <Content>
+            <div class="modal">
+                <input type="number" id="hoursInput" 
+                    value="@Hours.ToString("00")" 
+                    min="0" max="24" 
+                    @onchange="(e => Hours = Convert.ToInt32(e.Value))">:
+                <input type="number" id="minutesInput" 
+                    value="@Minutes.ToString("00")" 
+                    min="0" max="59" 
+                    @onchange="(e => Minutes = Convert.ToInt32(e.Value))">:
+                <input type="number" id="secondsInput" 
+                    value="@Seconds.ToString("00")" 
+                    min="0" max="59" 
+                    @onchange="(e => Seconds = Convert.ToInt32(e.Value))">
+            </div>
+            <br/>
+            <button class="modal-btn" @onclick="@addTimer">Add</button> 
+        </Content>
+    </PopUpPage>
 </div>
 
 @code {
