@@ -2,6 +2,18 @@
 @inherits FrontEnd.Components.Timer
 
 <div class="page">
+
+    <div class="topBar">
+        <h1 style="margin:auto;">Productivity App</h1>
+        <img src="Images/profile_pic.png" @onclick="@showSignInPage">
+    </div>
+
+    <PopUpPage Title="Sign Up" IsOpened="@isClicked" OnExit="@hideSignInPage">
+        <Content>
+            <button>sign up</button>
+        </Content>
+    </PopUpPage>
+
     <div class="timer">
         <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
         <div class="timerBtn">
@@ -12,7 +24,7 @@
 
     <div class="setTimer">
         <h3>Set Timer</h3>
-        <a href="" @onclick="showModal">Add Timer +</a>
+        <a href="" @onclick="@showModal">Add Timer +</a>
         <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
         {
@@ -22,7 +34,8 @@
         }
         </div>
     </div>
-    <PopUpPage Title="Create Costum Timer" IsOpened="isOpened" OnExit="hideModal">
+
+    <PopUpPage Title="Create Costum Timer" IsOpened="@isOpened" OnExit="@hideModal">
         <Content>
             <div class="modal">
                 <input type="number" id="hoursInput" 
@@ -44,12 +57,12 @@
     </PopUpPage>
 </div>
 
+@* Code for set timer PopUpPage *@
 @code {
     private bool isOpened = false;
     private void showModal()
     {
         isOpened = true;
-        System.Console.WriteLine($"{isOpened}");
     }
     private void hideModal()
     {
@@ -57,8 +70,26 @@
     }
     private void addTimer()
     {
-        isOpened = false;
-        timerCollections.Add( new TimerStructure() 
-            { Id = (timerCollections.Count + 1), Hours = Hours, Minutes = Minutes, Seconds = Seconds });
+        if (Hours != 0 && Minutes != 0 && Seconds != 0)
+        {
+            isOpened = false;
+            timerCollections.Add( new TimerStructure() 
+                { Id = (timerCollections.Count + 1), Hours = Hours, Minutes = Minutes, Seconds = Seconds });
+        }
+        else
+        {}
+    }
+}
+
+@* Code for sign-in PopUpPage *@
+@code {
+    private bool isClicked = false;
+    private void showSignInPage()
+    {
+        isClicked = true;
+    }
+    private void hideSignInPage()
+    {
+        isClicked = false;
     }
 }

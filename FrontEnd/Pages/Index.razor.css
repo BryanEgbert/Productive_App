@@ -6,20 +6,48 @@ a:link, a:visited{
 .page {
     display: grid;
     grid-template-columns: 75vw auto;
-    grid-template-rows: auto;
+    grid-template-rows: 8vh 100%;
+    height: 100vh;
     width: 100%;
-    height: 91.4vh;
     margin: 0px;
     padding: 0px;
     overflow: hidden;
 }
 
-.timer {
+/* div .page > div .topBar */
+.topBar {
+    display: flex;
+    flex-direction: row;
+    background-color: #f7f7f7;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
     grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 2;
 }
+
+.topBar img {
+    width: 45px;
+    height: 45px;
+    margin: 5px 1em 5px 0px;
+    border-radius: 50%;
+}
+
+.topBar img:hover {
+    cursor: pointer;
+}
+
+/* div .page > div .timer */
+.timer {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    overflow: hidden;
+}
+
 .timer p{
     text-align: center;
     margin-bottom: 0.5em;
@@ -40,8 +68,6 @@ a:link, a:visited{
     padding: 0px;
     border-radius: 10px;
     font-size: 1em;
-    text-align: center;
-    align-self: center;
 }
 .timerBtn button.stop-btn{
     margin-left: 2.5rem;
@@ -50,22 +76,21 @@ a:link, a:visited{
     padding: 0px;
     border-radius: 10px;
     font-size: 1em;
-    text-align: center;
-    align-self: center;
 }
 
-
+/* div .page ? div .setTimer */
 .setTimer {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
     display: flex;
     flex-direction: column;
     text-align: center;
     background-color: #f7f7f7;
     overflow-x: hidden;
 }
+
 .setTimerBtn button{
     width: 9em;
     height: 10em;
@@ -76,6 +101,7 @@ a:link, a:visited{
     border-radius: 10px;
 }
 
+/* PopUpPage */
 .modal, input {
     text-align: center;
     font-size: 2em;
@@ -100,16 +126,25 @@ a:link, a:visited{
     .page {
         display: grid;
         grid-template-columns: auto;
-        grid-template-rows: 60vh 35px auto;
+        grid-template-rows: 8vh 60vh 35px auto;
         -webkit-overflow-scrolling: touch;
         overflow: hidden;
     }
-    .timer{
+
+    .topBar {
         grid-column-start: 1;
         grid-column-end: 2;
         grid-row-start: 1;
         grid-row-end: 2;
     }
+
+    .timer{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+
     .timer p{
         text-align: center;
         margin-bottom: 1em;
@@ -117,21 +152,25 @@ a:link, a:visited{
         font-size: 5em;
         font-weight: 900;
     }
+
     .timerBtn {
         margin-bottom: 1em;
     }
+
     .setTimer{
-        grid-row-start: 2;
-        grid-row-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 5;
         grid-column-start: 1;
         grid-column-end: 2;
         text-align: center;
         margin: 0px;
         overflow: auto;
     }
+
     .setTimer h3 {
         position: sticky;
     }
+
     .setTimer .setTimerBtn{
         text-align: center;
         background-color: #f7f7f7;
@@ -141,6 +180,7 @@ a:link, a:visited{
         display: flex;
         flex-direction: row;
     }
+
     .setTimerBtn button {
         font-size: 1.2em;
         font-weight: bold;
@@ -148,6 +188,7 @@ a:link, a:visited{
         width: 10em;
         height: 5em;
     }
+    
     /* Ipad screen display */
     @media only screen and (min-height: 1024px) {
         .setTimerBtn button {
