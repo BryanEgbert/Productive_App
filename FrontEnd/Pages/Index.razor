@@ -5,14 +5,14 @@
 
     <div class="topBar">
         <h1 style="margin:auto;">Productivity App</h1>
-        <img src="Images/profile_pic.png" @onclick="@showSignInPage">
+        @* <img src="Images/profile_pic.png" @onclick="@showSignInPage"> *@
     </div>
 
-    <PopUpPage Title="Sign Up" IsOpened="@isClicked" OnExit="@hideSignInPage">
+    @* <PopUpPage Title="Sign Up" IsOpened="@isClicked" OnExit="@hideSignInPage">
         <Content>
             <button>sign up</button>
         </Content>
-    </PopUpPage>
+    </PopUpPage> *@
 
     <div class="timer">
         <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
@@ -23,16 +23,16 @@
     </div>
 
     <div class="setTimer">
-        <h3>Set Timer</h3>
-        <a href="" @onclick="@showModal">Add Timer +</a>
-        <div class="setTimerBtn">
+        <strong @onclick="@showModal">Set Timer</strong>
+        @* <a href="" @onclick="@showModal">Add Timer +</a> *@
+        @* <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
         {
             <button disabled=@SetTimerButtonIsDisabled @onclick="() => SetTimer(timer.Id)">
                 @timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")
             </button>
         }
-        </div>
+        </div> *@
     </div>
 
     <PopUpPage Title="Create Costum Timer" IsOpened="@isOpened" OnExit="@hideModal">
@@ -52,13 +52,13 @@
                     @onchange="(e => Seconds = Convert.ToInt32(e.Value))">
             </div>
             <br/>
-            <button class="modal-btn" @onclick="@addTimer">Add</button> 
+            <button class="modal-btn" @onclick="@setTimer">Add</button> 
         </Content>
     </PopUpPage>
 </div>
 
-@* Code for set timer PopUpPage *@
 @code {
+    @* Code for set timer PopUpPage *@
     private bool isOpened = false;
     private void showModal()
     {
@@ -68,22 +68,17 @@
     {
         isOpened = false;
     }
-    private void addTimer()
+    private void setTimer()
     {
-        if (Hours != 0 && Minutes != 0 && Seconds != 0)
+        if (Hours != 0 || Minutes != 0 || Seconds != 0)
         {
             isOpened = false;
-            timerCollections.Add( new TimerStructure() 
-                { Id = (timerCollections.Count + 1), Hours = Hours, Minutes = Minutes, Seconds = Seconds });
         }
         else
         {}
     }
-}
-
-@* Code for sign-in PopUpPage *@
-@code {
-    private bool isClicked = false;
+    @* Code for sign-in PopUpPage *@
+    @* private bool isClicked = false;
     private void showSignInPage()
     {
         isClicked = true;
@@ -91,5 +86,5 @@
     private void hideSignInPage()
     {
         isClicked = false;
-    }
+    } *@
 }

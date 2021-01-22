@@ -61,3 +61,15 @@ input, input:focus {
     from {opacity: 1}
     to {opacity: 0}
 }
+
+@media only screen and (max-width: 480px) {
+    .modal-content {
+        width: 97vw;
+    }
+
+    @media only screen and (max-width: 320px) {
+        .modal-content {
+            font-size: 0.8em;
+        }
+    }
+}

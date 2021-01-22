@@ -8,14 +8,6 @@ namespace FrontEnd.Components
 {
     public class Timer : ComponentBase
     {
-        public List<TimerStructure> timerCollections = new List<TimerStructure>()
-        {
-            new TimerStructure(){ Id = 1, Hours = 0, Minutes = 30, Seconds = 0 },
-            new TimerStructure(){ Id = 2, Hours = 1, Minutes = 0, Seconds = 0 },
-            new TimerStructure(){ Id = 3, Hours = 1, Minutes = 30, Seconds = 0 },
-        };
-
-        public int Index { get; private set; }
         public int Hours { get; set; } = 0;
         public int Minutes { get; set; } = 0;
         public int Seconds { get; set; } = 0;
@@ -23,13 +15,6 @@ namespace FrontEnd.Components
         public bool StartButtonIsDisabled { get; set; } = false;
         public bool SetTimerButtonIsDisabled { get; set; } = false;
         private static System.Timers.Timer aTimer;
-        public void SetTimer(int value)
-        {
-            this.Index = value - 1;
-            Hours = timerCollections[Index].Hours;
-            Minutes = timerCollections[Index].Minutes;
-            Seconds = timerCollections[Index].Seconds;
-        }
         public void StopTimer()
         {
             aTimer.Stop();

@@ -1,17 +1,18 @@
-a:link, a:visited{
-    text-decoration: none;
+strong {
     color: blue;
-} 
+}
+strong:hover {
+    cursor: pointer;
+}
 
 .page {
     display: grid;
-    grid-template-columns: 75vw auto;
+    grid-template-columns: auto;
     grid-template-rows: 8vh 100%;
     height: 100vh;
     width: 100%;
     margin: 0px;
     padding: 0px;
-    overflow: hidden;
 }
 
 /* div .page > div .topBar */
@@ -87,8 +88,8 @@ a:link, a:visited{
     display: flex;
     flex-direction: column;
     text-align: center;
-    background-color: #f7f7f7;
     overflow-x: hidden;
+    background-color: #f7f7f7;
 }
 
 .setTimerBtn button{
