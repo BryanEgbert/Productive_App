@@ -24,6 +24,16 @@
 
     <div class="setTimer">
         <strong @onclick="@showModal">Set Timer</strong>
+        <h3>To-Do List</h3>
+        <hr />
+        @foreach (string toDoList in ToDoListCollection)
+        {
+            <div class="toDoList">
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox">@toDoList</label>
+            </div>
+            <hr />
+        }
         @* <a href="" @onclick="@showModal">Add Timer +</a> *@
         @* <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
@@ -42,14 +52,17 @@
                     value="@Hours.ToString("00")" 
                     min="0" max="24" 
                     @onchange="(e => Hours = Convert.ToInt32(e.Value))">:
+                <label for="hoursInput"></label>
                 <input type="number" id="minutesInput" 
                     value="@Minutes.ToString("00")" 
                     min="0" max="59" 
                     @onchange="(e => Minutes = Convert.ToInt32(e.Value))">:
+                <label for="minutesInput"></label>
                 <input type="number" id="secondsInput" 
                     value="@Seconds.ToString("00")" 
                     min="0" max="59" 
                     @onchange="(e => Seconds = Convert.ToInt32(e.Value))">
+                <label for="secondsInput"></label>
             </div>
             <br/>
             <button class="modal-btn" @onclick="@setTimer">Add</button> 
@@ -77,14 +90,4 @@
         else
         {}
     }
-    @* Code for sign-in PopUpPage *@
-    @* private bool isClicked = false;
-    private void showSignInPage()
-    {
-        isClicked = true;
-    }
-    private void hideSignInPage()
-    {
-        isClicked = false;
-    } *@
 }
