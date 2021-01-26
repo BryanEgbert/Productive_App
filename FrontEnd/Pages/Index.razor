@@ -22,18 +22,24 @@
         </div>
     </div>
 
-    <div class="setTimer">
+    <div class="aside">
         <strong @onclick="@showModal">Set Timer</strong>
         <h3>To-Do List</h3>
         <hr />
-        @foreach (string toDoList in ToDoListCollection)
-        {
-            <div class="toDoList">
-                <input type="checkbox" id="checkbox">
-                <label for="checkbox">@toDoList</label>
-            </div>
-            <hr />
-        }
+        <div class="toDoList">
+            @if (ToDoListCollection != null)
+            {
+                @foreach (string toDoList in ToDoListCollection)
+                {
+                    <input type="checkbox" id="checkbox">
+                    <label for="checkbox">@toDoList</label>
+                    <hr />
+                }
+            }
+            else
+            {}
+        </div>
+        <input placeholder="+ Add to-do list" @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList" type="text">
         @* <a href="" @onclick="@showModal">Add Timer +</a> *@
         @* <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)
