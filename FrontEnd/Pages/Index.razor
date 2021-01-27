@@ -27,8 +27,9 @@
             <strong @onclick="@showModal">Set Timer</strong>
             <h3>To-Do List</h3>
         </div>
+
         <hr />
-        @* Error in toDoList div class *@
+
         @if (ToDoListCollection != null)
         {
             @foreach (string toDoList in ToDoListCollection)
@@ -42,7 +43,11 @@
         }
         else
         {}
-        <input placeholder="+ Add to-do list" @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList" type="text">
+
+        <label for="toDoInput">
+            <input placeholder="+ Add to-do list" id="toDoInput" type="text"
+            @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList">
+        </label>
         @* <a href="" @onclick="@showModal">Add Timer +</a> *@
         @* <div class="setTimerBtn">
         @foreach (TimerStructure timer in timerCollections)

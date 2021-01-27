@@ -151,6 +151,7 @@ hr {
     flex-direction: row;
     text-align: justify;
     align-content: center;
+    padding-right: 5px;
 }
 
 .toDoList label {

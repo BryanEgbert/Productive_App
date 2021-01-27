@@ -53,11 +53,13 @@
     .sidebar {
         width: 250px;
         height: 100vh;
+        position: -webkit-sticky;
         position: sticky;
         top: 0;
     }
 
     .top-row {
+        position: -webkit-sticky;
         position: sticky;
         top: 0;
         z-index: 1;
