@@ -2,6 +2,7 @@ using System;
 using FrontEnd.Components;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Web;
+using System.Threading.Tasks;
 
 namespace FrontEnd.Pages
 {
@@ -9,7 +10,8 @@ namespace FrontEnd.Pages
     {
         public bool IsCompleted { get; set; }
         public string Description { get; set; }
-        public List<string> ToDoListCollection { get; set; }
+        public List<string> ToDoListCollection { get; set; } = new List<string>();
+
         public void AddList(KeyboardEventArgs e)
         {
             if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(Description) || 
@@ -20,5 +22,12 @@ namespace FrontEnd.Pages
             } else
             {}
         }
+        // protected override async Task OnAfterRenderAsync(bool firstRender)
+        // {
+        //     if(firstRender)
+        //     {
+        //         await 
+        //     }
+        // }
     }
 }

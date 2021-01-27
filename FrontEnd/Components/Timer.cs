@@ -22,8 +22,6 @@ namespace FrontEnd.Components
             StopButtonIsDisabled = true;
             StartButtonIsDisabled = false;
             SetTimerButtonIsDisabled = false;
-
-            Console.WriteLine($"{Hours}:{Minutes}:{Seconds}");
         }
         public void StartTimer() 
         {

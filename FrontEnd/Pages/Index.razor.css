@@ -119,6 +119,7 @@ hr {
     overflow-x: hidden;
     background-color: #f7f7f7;
     margin-left: auto;
+    flex-direction: column;
 }
 
 @media only screen and (min-width: 895px) and (max-width: 1000px) {
@@ -138,27 +139,27 @@ hr {
     border-bottom-style: solid;
     border-width: 1px;
     background-color: transparent;
-    width: 100%;
+    width: calc(100% - 1em);
     padding: 5px 1em;
-    margin: 0px 5px;
     font-size: 1em;
+    align-self: center;
 }
 
 /* div.page > div.aside > div.toDoList */
 .toDoList {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     text-align: justify;
-    justify-content: space-between;
+    align-content: center;
 }
 
 .toDoList label {
-    margin-left: 1em;
     word-break: break-word;
+    margin-left: 5px;
 }
 
-.toDoList input {
-    margin-right: 1em;
+.toDoList input[type="checkbox"] {
+    margin-left: 1em;
     align-self: center;
 }
 
@@ -228,8 +229,14 @@ hr {
         overflow-y: auto;
     }
 
-    .aside h3 {
-        position: sticky;
+    .aside h3, .aside strong {
+        margin: 10px 1em 0px;
+    }
+
+    .aside .title {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
     }
 
     .aside .setTimerBtn{

@@ -23,22 +23,25 @@
     </div>
 
     <div class="aside">
-        <strong @onclick="@showModal">Set Timer</strong>
-        <h3>To-Do List</h3>
+        <div class="title">
+            <strong @onclick="@showModal">Set Timer</strong>
+            <h3>To-Do List</h3>
+        </div>
         <hr />
-        <div class="toDoList">
-            @if (ToDoListCollection != null)
+        @* Error in toDoList div class *@
+        @if (ToDoListCollection != null)
+        {
+            @foreach (string toDoList in ToDoListCollection)
             {
-                @foreach (string toDoList in ToDoListCollection)
-                {
+                <div class="toDoList">
                     <input type="checkbox" id="checkbox">
                     <label for="checkbox">@toDoList</label>
-                    <hr />
-                }
+                </div>
+                <hr />
             }
-            else
-            {}
-        </div>
+        }
+        else
+        {}
         <input placeholder="+ Add to-do list" @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList" type="text">
         @* <a href="" @onclick="@showModal">Add Timer +</a> *@
         @* <div class="setTimerBtn">
