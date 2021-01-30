@@ -1,0 +1,35 @@
+@page "/test2"
+@using Google.Protobuf.Collections
+@using static Global.Protos.UserInfo.Types
+@inject User.UserClient UserClient
+
+<input placeholder="id" @bind="@id" />
+<input placeholder="name" @bind="@name" />
+<input placeholder="email" @bind="@email" />
+<input placeholder="password" @bind="@password" />
+<button @onclick="@GetToDoList">Get server response</button>
+@serverNameResponse
+@foreach(var todo in serverToDoResponse)
+{
+    <p>@todo.Id</p>
+    <p>@todo.Description</p>
+    <p>@todo.IsCompleted</p>
+}
+
+@code {
+    private int id;
+    private string name;
+    private string email;
+    private string password;
+    private string serverNameResponse;
+    private RepeatedField<ToDoStructure> serverToDoResponse = new RepeatedField<ToDoStructure>();
+    private async Task GetToDoList()
+    {
+        var request = new UserRequest { Name = name, Email = email, Password = password };
+        var response = await  UserClient.GetUserAsync(request);
+        serverNameResponse = response.Name;
+        var todo = new List<ToDoStructure>();
+        var user = new UserInfo() { ToDoList = { todo } };
+        serverToDoResponse = response.ToDoList;
+    }
+}

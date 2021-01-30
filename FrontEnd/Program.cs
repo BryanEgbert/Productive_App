@@ -31,6 +31,16 @@ namespace FrontEnd
 
                 return new Greeter.GreeterClient(channel);
             });
+            builder.Services.AddScoped(services => 
+            {
+                var httpHandler = new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler());
+                var channel = GrpcChannel.ForAddress("https://localhost:5000", new GrpcChannelOptions
+                    { 
+                        HttpHandler = httpHandler
+                    });
+
+                return new User.UserClient(channel);
+            });
 
             await builder.Build().RunAsync();
 

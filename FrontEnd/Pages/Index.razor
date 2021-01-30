@@ -32,7 +32,7 @@
         @foreach (ToDo todo in ToDoListCollection)
         {
             <div class="toDoList">
-                <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" @onpointerover="@PrintCheckboxValue" />
+                <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" />
                 <label for="checkbox">@todo.Description</label>
             </div>
             <hr />

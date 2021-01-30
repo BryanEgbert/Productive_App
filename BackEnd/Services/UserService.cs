@@ -18,13 +18,13 @@ namespace BackEnd
             _logger = logger;
         }
 
-        public override Task<UserInfo> GetUser(UserIdentity request, ServerCallContext context)
+        public override Task<UserInfo> GetUser(UserRequest request, ServerCallContext context)
         {
             return Task.FromResult(new UserInfo
             {
                 Name = request.Name,
-                Timer={
-                    new TimerStructure{ Id = 4, Hours = 0, Minutes = 30 , Seconds = 0 }
+                ToDoList={
+                    new ToDoStructure{ Id = 1, Description = "walk", IsCompleted = false }
                 }
             });
         }
