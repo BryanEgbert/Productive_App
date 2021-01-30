@@ -17,8 +17,8 @@
     <div class="timer">
         <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
         <div class="timerBtn">
-            <button class="start-btn" @onclick="StartTimer" disabled=@StartButtonIsDisabled>Start</button>
-            <button class="stop-btn" @onclick="StopTimer" disabled=@StopButtonIsDisabled>Stop</button>
+            <button class="start-btn" @onclick="@StartTimer" disabled=@StartButtonIsDisabled>Start</button>
+            <button class="stop-btn" @onclick="@StopTimer" disabled=@StopButtonIsDisabled>Stop</button>
         </div>
     </div>
 
@@ -27,36 +27,21 @@
             <strong @onclick="@showModal">Set Timer</strong>
             <h3>To-Do List</h3>
         </div>
-
         <hr />
 
-        @if (ToDoListCollection != null)
+        @foreach (ToDo todo in ToDoListCollection)
         {
-            @foreach (string toDoList in ToDoListCollection)
-            {
-                <div class="toDoList">
-                    <input type="checkbox" id="checkbox">
-                    <label for="checkbox">@toDoList</label>
-                </div>
-                <hr />
-            }
+            <div class="toDoList">
+                <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" @onpointerover="@PrintCheckboxValue" />
+                <label for="checkbox">@todo.Description</label>
+            </div>
+            <hr />
         }
-        else
-        {}
 
         <label for="toDoInput">
             <input placeholder="+ Add to-do list" id="toDoInput" type="text"
             @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList">
         </label>
-        @* <a href="" @onclick="@showModal">Add Timer +</a> *@
-        @* <div class="setTimerBtn">
-        @foreach (TimerStructure timer in timerCollections)
-        {
-            <button disabled=@SetTimerButtonIsDisabled @onclick="() => SetTimer(timer.Id)">
-                @timer.Hours.ToString("00"):@timer.Minutes.ToString("00"):@timer.Seconds.ToString("00")
-            </button>
-        }
-        </div> *@
     </div>
 
     <PopUpPage Title="Create Costum Timer" IsOpened="@isOpened" OnExit="@hideModal">
