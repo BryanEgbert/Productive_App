@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd
 {
@@ -17,6 +18,8 @@ namespace BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+
+            services.AddDbContext<UserContext>(options => options.UseInMemoryDatabase("UserDatabase"));
 
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
