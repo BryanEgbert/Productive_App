@@ -10,11 +10,12 @@ service User {
     rpc GetUser (UserRequest) returns (UserResponse);
     rpc GetToDo (google.protobuf.Empty) returns (ToDoItemList);
     rpc AddToDo (ToDoStructure) returns (AddToDoResponse);
-    rpc DeleteToDo (DeleteToDoParameter) returns (DeleteToDoResponse);
+    rpc PutToDo (ToDoStructure) returns (google.protobuf.Empty);
+    rpc DeleteToDo (DeleteToDoParameter) returns (google.protobuf.Empty);
 }
 
 message UserRequest {
-    int32 id = 1;
+    int32 userId = 1;
     string name = 2;
     string email = 3;
     string password = 4;

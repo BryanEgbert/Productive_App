@@ -1,5 +1,5 @@
 using System;
-using FrontEnd.Components;
+using FrontEnd.BaseComponents;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Web;
 using System.Threading.Tasks;

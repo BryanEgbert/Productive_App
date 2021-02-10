@@ -42,13 +42,20 @@ namespace BackEnd
 
         }
 
-        public override Task<AddToDoResponse> AddToDo(ToDoStructure request, ServerCallContext context)
+        public override async Task<AddToDoResponse> AddToDo(ToDoStructure request, ServerCallContext context)
         {
-            _dataContext.ToDoDb.Add(request);
-            var result = _dataContext.SaveChanges();
+            var toDoList = new ToDoItemList();
+            _dataContext.ToDoDb.Add(new ToDoStructure()
+            {
+                Id = toDoList.ToDoList.Count,
+                Description = request.Description,
+                IsCompleted = false
+            });
+
+            var result = await _dataContext.SaveChangesAsync();
             if(result > 0)
             {
-                return Task.FromResult(new AddToDoResponse()
+                return await Task.FromResult(new AddToDoResponse()
                 {
                     StatusMessage = "Added successfully",
                     Status = true,
@@ -57,13 +64,39 @@ namespace BackEnd
             }
             else
             {
-                return Task.FromResult(new AddToDoResponse()
+                return await Task.FromResult(new AddToDoResponse()
                 {
                     StatusMessage = "Issue occured",
                     Status = true,
                     StatusCode = 500
                 });
             }
+        }
+
+        public override async Task<Empty> PutToDo(ToDoStructure request, ServerCallContext context)
+        {
+            var response = new Empty();
+            _dataContext.ToDoDb.Update(new ToDoStructure()
+            {
+                Id = request.Id,
+                Description = request.Description,
+                IsCompleted = request.IsCompleted
+            });
+            await _dataContext.SaveChangesAsync();
+            return await Task.FromResult(response);
+        }
+
+        public override async Task<Empty> DeleteToDo(DeleteToDoParameter request, ServerCallContext context)
+        {
+            var response = new Empty();
+            var item = (from data in _dataContext.ToDoDb
+                        where data.Id == request.Id
+                        select data).Single();
+
+            _dataContext.ToDoDb.Remove(item);
+            var result = await _dataContext.SaveChangesAsync();
+            return await Task.FromResult(response);
+            
         }
     } 
 }
