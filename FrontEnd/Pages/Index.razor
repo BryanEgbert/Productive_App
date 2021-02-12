@@ -29,19 +29,21 @@
         </div>
         <hr />
 
-        @foreach (ToDo todo in ToDoListCollection)
+        <TodoList></TodoList>
+
+        @* @foreach (ToDo todo in ToDoListCollection)
         {
             <div class="toDoList">
                 <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" />
                 <label for="checkbox">@todo.Description</label>
             </div>
             <hr />
-        }
+        } *@
 
-        <label for="toDoInput">
+        @* <label for="toDoInput">
             <input placeholder="+ Add to-do list" id="toDoInput" type="text"
             @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddList">
-        </label>
+        </label> *@
     </div>
 
     <PopUpPage Title="Create Costum Timer" IsOpened="@isOpened" OnExit="@hideModal">

@@ -8,8 +8,8 @@ package user;
 
 service User {
     rpc GetUser (UserRequest) returns (UserResponse);
-    rpc GetToDo (google.protobuf.Empty) returns (ToDoItemList);
-    rpc AddToDo (ToDoStructure) returns (AddToDoResponse);
+    rpc GetToDoList (google.protobuf.Empty) returns (ToDoItemList);
+    rpc AddToDo (ToDoStructure) returns (google.protobuf.Empty);
     rpc PutToDo (ToDoStructure) returns (google.protobuf.Empty);
     rpc DeleteToDo (DeleteToDoParameter) returns (google.protobuf.Empty);
 }
@@ -38,16 +38,6 @@ message ToDoItemList {
 
 }
 
-message AddToDoResponse {
-    string statusMessage = 1;
-    bool status = 2;
-    int32 statusCode = 3;
-}
-
 message DeleteToDoParameter {
     int32 id = 1;
-}
-
-message DeleteToDoResponse {
-    string message = 1;
 }

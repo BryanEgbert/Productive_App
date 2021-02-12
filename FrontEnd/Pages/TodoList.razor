@@ -1,0 +1,13 @@
+  @foreach (var todo in ServerToDoResponse)
+    {
+        <div class="toDoList">
+            <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" />
+            <label for="checkbox">@todo.Description</label>
+        </div>
+        <hr />
+    }
+
+    <label for="toDoInput">
+        <input placeholder="+ Add to-do list" id="toDoInput" type="text"
+        @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddToDo">
+    </label>

@@ -29,7 +29,7 @@ namespace BackEnd
             });
         }
 
-        public override Task<ToDoItemList> GetToDo(Empty request, ServerCallContext context)
+        public override Task<ToDoItemList> GetToDoList(Empty request, ServerCallContext context)
         {
             var toDoList = new ToDoItemList();
 
@@ -42,9 +42,11 @@ namespace BackEnd
 
         }
 
-        public override async Task<AddToDoResponse> AddToDo(ToDoStructure request, ServerCallContext context)
+        public override async Task<Empty> AddToDo(ToDoStructure request, ServerCallContext context)
         {
             var toDoList = new ToDoItemList();
+            var response = new Empty();
+
             _dataContext.ToDoDb.Add(new ToDoStructure()
             {
                 Id = toDoList.ToDoList.Count,
@@ -52,36 +54,14 @@ namespace BackEnd
                 IsCompleted = false
             });
 
-            var result = await _dataContext.SaveChangesAsync();
-            if(result > 0)
-            {
-                return await Task.FromResult(new AddToDoResponse()
-                {
-                    StatusMessage = "Added successfully",
-                    Status = true,
-                    StatusCode = 100
-                });
-            }
-            else
-            {
-                return await Task.FromResult(new AddToDoResponse()
-                {
-                    StatusMessage = "Issue occured",
-                    Status = true,
-                    StatusCode = 500
-                });
-            }
+            await _dataContext.SaveChangesAsync();
+            return await Task.FromResult(response);
         }
 
         public override async Task<Empty> PutToDo(ToDoStructure request, ServerCallContext context)
         {
             var response = new Empty();
-            _dataContext.ToDoDb.Update(new ToDoStructure()
-            {
-                Id = request.Id,
-                Description = request.Description,
-                IsCompleted = request.IsCompleted
-            });
+            _dataContext.ToDoDb.Update(request);
             await _dataContext.SaveChangesAsync();
             return await Task.FromResult(response);
         }

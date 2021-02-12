@@ -9,8 +9,6 @@
 <input placeholder="password" @bind="@password" /><br>
 <input placeholder="To-do description" @bind="@description" />
 <input placeholder="ToDo ID" @bind="@toDoId" />
-<input placeholder="update todo id" @bind="@updateToDoId" />
-<input placeholder="update description" @bind="@updateDesc" />
 <br>
 <input type="checkbox" @bind="@updateIsCompleted" />IsCompleted
 <button @onclick="@GetUser">Get server response</button>
@@ -22,7 +20,6 @@
 {
     <p>ID: @todo.Id, Description: @todo.Description, IsCompleted: @todo.IsCompleted</p>
 }
-<p>@statusResponse</p>
 
 @code {
     private int id;
@@ -31,12 +28,9 @@
     private string password;
     private string serverNameResponse;
     private int toDoId;
-    private int updateToDoId;
-    private string updateDesc;
     private bool updateIsCompleted;
     private RepeatedField<ToDoStructure> serverToDoResponse = new RepeatedField<ToDoStructure>();
     private string description;
-    private string statusResponse;
     protected override async Task OnInitializedAsync()
     {
         await GetToDoList();
@@ -62,7 +56,7 @@
     private async Task GetToDoList()
     {
         var request = new Empty();
-        var response = await UserClient.GetToDoAsync(request);
+        var response = await UserClient.GetToDoListAsync(request);
         serverToDoResponse = response.ToDoList;
     }
     private async Task AddToDo()
@@ -71,15 +65,15 @@
         var request = new ToDoStructure(){Id = toDoList.ToDoList.Count, Description = description, IsCompleted = false};
         var newToDo = await UserClient.AddToDoAsync(request);
         toDoList.ToDoList.Add(request);
-        statusResponse = newToDo.StatusMessage;
         await InvokeAsync(StateHasChanged);
     }
     private async Task PutToDo()
     {
         var toDoList = new ToDoItemList();
-        var request = new ToDoStructure(){ Id = updateToDoId, Description = updateDesc, IsCompleted = updateIsCompleted };
+        var request = new ToDoStructure(){ Id = toDoId, Description = description, IsCompleted = updateIsCompleted };
         var response = await UserClient.PutToDoAsync(request);
-        toDoList.ToDoList.Insert(updateToDoId, request);
+        toDoList.ToDoList.Insert(toDoId, request);
+        await UserClient.PutToDoAsync(request);
         await InvokeAsync(StateHasChanged);
     }
     private async Task DeleteToDo()

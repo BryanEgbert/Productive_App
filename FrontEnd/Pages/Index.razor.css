@@ -131,39 +131,6 @@ hr {
     }
 }
 
-.aside input[type="text"], .aside input[type="text"]:focus {
-    outline: none;
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: solid;
-    border-width: 1px;
-    background-color: transparent;
-    width: calc(100% - 1em);
-    padding: 5px 1em;
-    font-size: 1em;
-    align-self: center;
-}
-
-/* div.page > div.aside > div.toDoList */
-.toDoList {
-    display: flex;
-    flex-direction: row;
-    text-align: justify;
-    align-content: center;
-    padding-right: 5px;
-}
-
-.toDoList label {
-    word-break: break-word;
-    margin-left: 5px;
-}
-
-.toDoList input[type="checkbox"] {
-    margin-left: 1em;
-    align-self: center;
-}
-
 /* PopUpPage */
 .modal, .modal input {
     text-align: center;
