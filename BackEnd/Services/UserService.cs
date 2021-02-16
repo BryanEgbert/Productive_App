@@ -72,7 +72,7 @@ namespace BackEnd
             var item = (from data in _dataContext.ToDoDb
                         where data.Id == request.Id
                         select data).Single();
-
+                        
             _dataContext.ToDoDb.Remove(item);
             var result = await _dataContext.SaveChangesAsync();
             return await Task.FromResult(response);

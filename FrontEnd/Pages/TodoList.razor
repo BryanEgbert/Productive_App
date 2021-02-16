@@ -1,13 +1,17 @@
-  @foreach (var todo in ServerToDoResponse)
-    {
-        <div class="toDoList">
+@foreach (var todo in ServerToDoResponse)
+{
+    <div class="toDoList">
+        <div class="todo">
             <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" />
             <label for="checkbox">@todo.Description</label>
         </div>
-        <hr />
-    }
+        @* Error here *@
+        <span @onclick="() => DeleteToDo(todo.Id)">X</span>
+    </div>
+    <hr />
+}
 
-    <label for="toDoInput">
-        <input placeholder="+ Add to-do list" id="toDoInput" type="text"
-        @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddToDo">
-    </label>
+<label for="toDoInput">
+    <input placeholder="+ Add to-do list" id="toDoInput" type="text"
+    @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddToDo">
+</label>

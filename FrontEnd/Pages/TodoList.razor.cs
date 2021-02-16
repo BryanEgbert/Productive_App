@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Global.Protos;
 using Google.Protobuf.Collections;
@@ -26,24 +27,6 @@ namespace FrontEnd.Pages
         {
             await GetToDoList();
         }
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if(firstRender)
-            {
-                await GetToDoList();
-            }
-            else
-            {
-                await GetToDoList();
-            }
-        }
-        public void PrintCheckboxValue()
-        {
-            foreach (ToDoStructure ToDoList in ServerToDoResponse)
-            {
-                Console.WriteLine($"{ToDoList.Id}, {ToDoList.Description}, {ToDoList.IsCompleted}");
-            }
-        }
         public async Task GetUser()
         {
             var request = new UserRequest { Name = this.Name, Email = this.Email, Password = this.Password };
@@ -63,32 +46,29 @@ namespace FrontEnd.Pages
             if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(Description) || 
                 e.Key == "NumpadEnter" && !string.IsNullOrWhiteSpace(Description))
             {
-                var toDoList = new ToDoItemList();
-                var request = new ToDoStructure(){ Id = toDoList.ToDoList.Count, Description = this.Description, IsCompleted = false };
-                var newToDo = await UserClient.AddToDoAsync(request);
-                toDoList.ToDoList.Add(request);
+                var request = new ToDoStructure()
+                    { Id = ServerToDoResponse.Count, Description = this.Description, IsCompleted = false };
+                Description = null;
+
+                await UserClient.AddToDoAsync(request);
+                await GetToDoList();
             } 
             else
             {}
-
-            await InvokeAsync(StateHasChanged);
         }
         public async Task PutToDo()
         {
-            var toDoList = new ToDoItemList();
             var request = new ToDoStructure(){ Id = ToDoId, Description = this.Description, IsCompleted = this.IsCompleted };
-            var response = await UserClient.PutToDoAsync(request);
-            toDoList.ToDoList.Insert(ToDoId, request);
+
             await UserClient.PutToDoAsync(request);
-            await InvokeAsync(StateHasChanged);
+            await GetToDoList();
         }
-        public async Task DeleteToDo()
+        public async Task DeleteToDo(int id)
         {
-            var toDoList = new ToDoItemList();
-            var request = new DeleteToDoParameter(){Id = ToDoId};
-            var response = await UserClient.DeleteToDoAsync(request);
-            toDoList.ToDoList.RemoveAt(ToDoId);
-            await InvokeAsync(StateHasChanged);
+            var request = new DeleteToDoParameter(){ Id = id };
+            
+            await UserClient.DeleteToDoAsync(request);
+            await GetToDoList();
         }
     }
 }

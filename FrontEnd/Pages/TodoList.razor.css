@@ -4,6 +4,12 @@
     text-align: justify;
     align-content: center;
     padding-right: 5px;
+    justify-content: space-between;
+}
+
+.toDoList .todo {
+    display: flex;
+    flex-direction: row;
 }
 
 .toDoList label {
@@ -14,6 +20,14 @@
 .toDoList input[type="checkbox"] {
     margin-left: 1em;
     align-self: center;
+}
+.toDoList span{
+    text-align: center;
+    color: gray;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 input[type="text"], .aside input[type="text"]:focus {
