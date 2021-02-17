@@ -12,6 +12,7 @@ namespace FrontEnd.Pages
 {
     public partial class TodoList
     {
+        private bool newIsCompleted = false;
         [Inject]
         public User.UserClient UserClient { get; set; }
         public bool IsCompleted { get; set; }
@@ -56,9 +57,17 @@ namespace FrontEnd.Pages
             else
             {}
         }
-        public async Task PutToDo()
+        public async Task PutToDo(int id, string description, bool isCompleted)
         {
-            var request = new ToDoStructure(){ Id = ToDoId, Description = this.Description, IsCompleted = this.IsCompleted };
+            if (isCompleted == false)
+            {
+                isCompleted = true;
+            } else
+            {
+                isCompleted = false;
+            }
+            var request = new ToDoStructure()
+                { Id = id, Description = description, IsCompleted = isCompleted };
 
             await UserClient.PutToDoAsync(request);
             await GetToDoList();

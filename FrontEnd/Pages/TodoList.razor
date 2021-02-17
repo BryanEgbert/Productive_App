@@ -2,10 +2,9 @@
 {
     <div class="toDoList">
         <div class="todo">
-            <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" />
+            <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" @onclick="() => PutToDo(todo.Id, todo.Description, todo.IsCompleted)" />
             <label for="checkbox">@todo.Description</label>
         </div>
-        @* Error here *@
         <span @onclick="() => DeleteToDo(todo.Id)">X</span>
     </div>
     <hr />
