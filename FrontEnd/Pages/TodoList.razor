@@ -2,15 +2,29 @@
 {
     <div class="toDoList">
         <div class="todo">
-            <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" @onclick="() => PutToDo(todo.Id, todo.Description, todo.IsCompleted)" />
-            <label for="checkbox">@todo.Description</label>
+
+            <input type="checkbox" id="checkbox" @bind="@todo.IsCompleted" 
+                @onclick="e => PutToDoIsCompleted(todo.Id, todo.Description, todo.IsCompleted, e)" />
+
+            <label style="display:@iconDisplay;" class="todo-description" role="textbox">@todo.Description</label>
+            <textarea id="@todo.Id.ToString()" class="edit-todo" 
+            @bind-value="@ToDoDescription" @bind-value:event="oninput" style="display:@editTodo;"
+            @onfocusout="() => PutToDoDescription(todo.Id, todo.Id.ToString(), todo.Description, ToDoDescription, todo.IsCompleted)">
+                @todo.Description
+            </textarea>
         </div>
-        <span @onclick="() => DeleteToDo(todo.Id)">X</span>
+
+        <div class="todo-icons">
+            <span class="edit-icon" style="display:@iconDisplay;" 
+                @onclick="() => EditToDo(todo.Id, todo.Description, todo.IsCompleted)">&#9998;</span>
+            <span @onclick="() => DeleteToDo(todo.Id)">&#9747;</span>
+        </div>
     </div>
+
     <hr />
 }
 
-<label for="toDoInput">
-    <input placeholder="+ Add to-do list" id="toDoInput" type="text"
+<input placeholder="+ Add to-do list" id="toDoInput" type="text"
     @bind-value="@Description" @bind-value:event="oninput" @onkeypress="@AddToDo">
-</label>
+
+<label for="toDoInput"></label>

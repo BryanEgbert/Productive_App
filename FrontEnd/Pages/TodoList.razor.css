@@ -15,6 +15,19 @@
 .toDoList label {
     word-break: break-word;
     margin-left: 5px;
+    margin: 0px;
+}
+
+
+textarea, textarea:focus {
+    resize: none;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    text-align: justify;
+    padding-top: 1em;
+    font-size: 1em;
+    overflow: hidden;
 }
 
 .toDoList input[type="checkbox"] {
@@ -28,9 +41,20 @@
     margin-left: 5px;
     margin-top: 0px;
     margin-bottom: 0px;
+    align-self: center;
 }
 
-input[type="text"], .aside input[type="text"]:focus {
+.todo-icons {
+    display: flex;
+    flex-direction: row;
+}
+
+.edit-icon {
+    display: inline-block;
+    transform: rotateZ(90deg);
+}
+
+input[type="text"], input[type="text"]:focus {
     outline: none;
     border-top-style: hidden;
     border-right-style: hidden;
@@ -42,4 +66,16 @@ input[type="text"], .aside input[type="text"]:focus {
     padding: 5px 1em;
     font-size: 1em;
     align-self: center;
+}
+
+@media only screen and (max-width: 1000px) {
+    .todo textarea, .todo textarea:focus {
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 895px) {
+    .todo textarea, .todo textarea:focus {
+        width: 87vw;
+    }
 }

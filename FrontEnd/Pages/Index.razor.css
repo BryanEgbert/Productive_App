@@ -23,13 +23,13 @@ hr {
     margin: 0px;
     padding: 0px;
     overflow-y: hidden;
+    background-color: #f3f3f3;
 }
 
 /* div .page > div .topBar */
 .topBar {
     display: flex;
     flex-direction: row;
-    background-color: #f7f7f7;
     padding: 0px;
     margin: 0px;
     overflow: hidden;
@@ -37,6 +37,8 @@ hr {
     grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 2;
+    background-color: white;
+    box-shadow: 4px 2px 11px 0px rgba(0,0,0,0.3);
 }
 
 .topBar img {
@@ -66,12 +68,6 @@ hr {
     font-size: 10em;
     font-weight: 900;
 }
-
-/* @media only screen and (max-width: 1000px) {
-    .timer p {
-        font-size: 8.5em;
-    }
-} */
 
 /* div.page > div.timer > div.timerBtn*/
 .timerBtn {
@@ -117,9 +113,10 @@ hr {
     grid-row-end: 3;
     text-align: center;
     overflow-x: hidden;
-    background-color: #f7f7f7;
     margin-left: auto;
     flex-direction: column;
+    background-color: white;
+    box-shadow: 4px 11px 11px 4px rgba(0,0,0,0.3);
 }
 
 @media only screen and (min-width: 895px) and (max-width: 1000px) {
