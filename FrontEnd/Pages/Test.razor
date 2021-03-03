@@ -1,0 +1,24 @@
+@page "/test"
+@inject  User.UserClient UserClient
+
+<input placeholder="name" @bind="@name">
+<input placeholder="email" @bind="@email">
+<input type="password" placeholder="password" @bind="@password">
+<button @onclick="@GetUser">Get server response</button>
+<p>Uuid: @serverResponseUuid</p>
+<p>Name: @serverResponseName</p>
+
+@code {
+    private string name;
+    private string email;
+    private string password;
+    private string serverResponseUuid;
+    private string serverResponseName;
+    private async Task GetUser()
+    {
+        var request = new UserRequest(){ Name = name, Email = email, Password = password };
+        var response = await UserClient.GetUserAsync(request);
+        serverResponseUuid = response.Uuid;
+        serverResponseName = response.Name;
+    }
+}

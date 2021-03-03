@@ -22,23 +22,26 @@ namespace BackEnd
 
         public override Task<UserResponse> GetUser(UserRequest request, ServerCallContext context)
         {
+            Guid uuid = Guid.NewGuid();
+            string stringUuid = uuid.ToString();
             
             return Task.FromResult(new UserResponse
             {
+                Uuid = stringUuid,
                 Name = request.Name
             });
         }
 
         public override Task<ToDoItemList> GetToDoList(Empty request, ServerCallContext context)
         {
-            var toDoList = new ToDoItemList();
+            var todoList = new ToDoItemList();;
 
             foreach(ToDoStructure todo in _dataContext.ToDoDb)
             {
-                toDoList.ToDoList.Add(todo);
+                todoList.ToDoList.Add(todo);
             }
 
-            return Task.FromResult(toDoList);
+            return Task.FromResult(todoList);
 
         }
 

@@ -59,7 +59,11 @@ namespace FrontEnd.Pages
                 e.Key == "NumpadEnter" && !string.IsNullOrWhiteSpace(Description))
             {
                 var request = new ToDoStructure()
-                    { Id = ServerToDoResponse.Count, Description = this.Description, IsCompleted = false };
+                { 
+                    Id = ServerToDoResponse.Count, 
+                    Description = this.Description, 
+                    IsCompleted = false 
+                };
                 Description = null;
 
                 await UserClient.AddToDoAsync(request);
@@ -80,7 +84,11 @@ namespace FrontEnd.Pages
             }
 
             var request = new ToDoStructure()
-                { Id = id, Description = description, IsCompleted = isCompleted };
+            { 
+                Id = id, 
+                Description = description, 
+                IsCompleted = isCompleted 
+            };
 
             await UserClient.PutToDoAsync(request);
             await GetToDoList();
@@ -88,19 +96,32 @@ namespace FrontEnd.Pages
         public async Task EditToDo(int todoId, string description, bool isCompleted)
         {
             int grpcIndex = ServerToDoResponse.IndexOf(new ToDoStructure() 
-                { Id = todoId, Description = description, IsCompleted = isCompleted});
+            { 
+                Id = todoId, 
+                Description = description, 
+                IsCompleted = isCompleted
+            });
+
+            ToDoDescription = ServerToDoResponse[grpcIndex].Description;
 
             await JSRuntime.InvokeVoidAsync("editMode", "edit-icon", "todo-description", "edit-todo", grpcIndex);
-            ToDoDescription = ServerToDoResponse[grpcIndex].Description;
             await JSRuntime.InvokeVoidAsync("focusTextArea", todoId.ToString(), ToDoDescription);
         }
         public async Task PutToDoDescription(int id, string htmlId, string oldDescription, string newDescription, bool isCompleted)
         {
             var request = new ToDoStructure()
-                { Id = id, Description = newDescription, IsCompleted = isCompleted };
+            { 
+                Id = id, 
+                Description = newDescription, 
+                IsCompleted = isCompleted 
+            };
 
             int grpcIndex = ServerToDoResponse.IndexOf(new ToDoStructure() 
-                { Id = id, Description = oldDescription, IsCompleted = isCompleted});
+            { 
+                Id = id, 
+                Description = oldDescription, 
+                IsCompleted = isCompleted
+            });
 
             await JSRuntime.InvokeVoidAsync("theRealAutoResize", htmlId);
             await JSRuntime.InvokeVoidAsync("initialMode", "edit-icon", "todo-description", "edit-todo", grpcIndex);
