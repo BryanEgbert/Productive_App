@@ -1,24 +1,56 @@
 @page "/test"
 @inject  User.UserClient UserClient
+@using Google.Protobuf.Collections;
+@using Google.Protobuf.WellKnownTypes;
 
 <input placeholder="name" @bind="@name">
 <input placeholder="email" @bind="@email">
 <input type="password" placeholder="password" @bind="@password">
 <button @onclick="@GetUser">Get server response</button>
+<br>
+<input placeholder="to-do description" @bind="@todoDescription">
+<button @onclick="() => AddToDoList(todoDescription)">Get to-do server response</button>
 <p>Uuid: @serverResponseUuid</p>
 <p>Name: @serverResponseName</p>
+@foreach (var todo in serverTodoResponse)
+{
+    <p>Id: @todo.Id, Uuid: @todo.Uuid, description: @todo.Description, isCompleted: @todo.IsCompleted</p>
+}
 
 @code {
     private string name;
     private string email;
     private string password;
+    private string todoDescription;
     private string serverResponseUuid;
     private string serverResponseName;
-    private async Task GetUser()
+    private RepeatedField<ToDoStructure> serverTodoResponse = new RepeatedField<ToDoStructure>();
+    private async Task AddUser()
     {
         var request = new UserRequest(){ Name = name, Email = email, Password = password };
-        var response = await UserClient.GetUserAsync(request);
+        var response = await UserClient.AddUserAsync(request);
+
         serverResponseUuid = response.Uuid;
         serverResponseName = response.Name;
+        
+        await InvokeAsync(StateHasChanged);
+    }
+    private async Task GetToDoList()
+    {
+        var request = new Empty();
+        var response = await UserClient.GetToDoListAsync(request);
+        serverTodoResponse = response.ToDoList;
+    }
+    private async Task AddToDoList(string description)
+    {
+        var request = new ToDoStructure()
+        { 
+            Id = serverTodoResponse.Count, 
+            Uuid = serverResponseUuid, 
+            Description = description, 
+            IsCompleted = false
+        };
+        await UserClient.AddToDoAsync(request);
+        await GetToDoList();
     }
 }

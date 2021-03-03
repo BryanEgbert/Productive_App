@@ -10,6 +10,8 @@ namespace BackEnd
 
         }
 
+        public DbSet<UserInfo> UserDb { get; set; }
+        public DbSet<ToDoItemList> ToDoListDb  { get; set; }
         public DbSet<ToDoStructure> ToDoDb { get; set; }
     }
 }

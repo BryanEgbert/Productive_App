@@ -6,6 +6,8 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Global.Protos;
 using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd
 {
@@ -20,44 +22,74 @@ namespace BackEnd
             _dataContext = dataContext;
         }
 
-        public override Task<UserResponse> GetUser(UserRequest request, ServerCallContext context)
+        public override async Task<UserInfo> GetUser(UserRequest request, ServerCallContext context)
         {
-            Guid uuid = Guid.NewGuid();
-            string stringUuid = uuid.ToString();
-            
-            return Task.FromResult(new UserResponse
+
+            var user = (from data in _dataContext.UserDb
+                        where data.Email == request.Email
+                        select data).Single();
+
+            var userList = new UserResponse();
+
+            return await Task.FromResult(new UserInfo()
             {
-                Uuid = stringUuid,
-                Name = request.Name
+                Id = userList.UserList.Count,
+                Uuid = user.Uuid,
+                Name = request.Name,
+                Email = request.Email
             });
         }
 
-        public override Task<ToDoItemList> GetToDoList(Empty request, ServerCallContext context)
+        public override async Task<Empty> AddUser(UserRequest request, ServerCallContext context)
         {
-            var todoList = new ToDoItemList();;
+            Guid uuid = Guid.NewGuid();
+            string stringUuid = uuid.ToString();
+            var userList = new UserResponse();
+            var newUser = new UserInfo(){ Uuid = stringUuid, Name = request.Name, Email = request.Email };
+            var response = new Empty();
 
-            foreach(ToDoStructure todo in _dataContext.ToDoDb)
+            _dataContext.UserDb.Add(newUser);
+            userList.UserList.Add(newUser);
+
+            await _dataContext.SaveChangesAsync();
+
+            return await Task.FromResult(response);
+        }
+
+        public override async Task<ToDoItemList> GetToDoList(Empty request, ServerCallContext context)
+        {
+            var todoList = new ToDoItemList();
+            var userInfo = new UserInfo();
+
+            var getTodo = (from data in _dataContext.ToDoListDb
+                           where data.Id == userInfo.Uuid
+                           select data).Single();
+
+            foreach(ToDoStructure todo in getTodo.ToDoList)
             {
                 todoList.ToDoList.Add(todo);
             }
 
-            return Task.FromResult(todoList);
-
+            return await Task.FromResult(todoList);
         }
 
         public override async Task<Empty> AddToDo(ToDoStructure request, ServerCallContext context)
         {
             var toDoList = new ToDoItemList();
             var response = new Empty();
-
-            _dataContext.ToDoDb.Add(new ToDoStructure()
+            var userInfo = new UserInfo();
+            var todoList = _dataContext.ToDoListDb.Where(x => x.Id == userInfo.Uuid).First();
+            var newTodo = new ToDoStructure()
             {
                 Id = toDoList.ToDoList.Count,
+                Uuid = userInfo.Uuid,
                 Description = request.Description,
                 IsCompleted = false
-            });
+            };
 
+            todoList.ToDoList.Add(newTodo);
             await _dataContext.SaveChangesAsync();
+
             return await Task.FromResult(response);
         }
 
