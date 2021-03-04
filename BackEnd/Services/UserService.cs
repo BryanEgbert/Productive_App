@@ -22,7 +22,7 @@ namespace BackEnd
             _dataContext = dataContext;
         }
 
-        public override async Task<UserInfo> GetUser(UserRequest request, ServerCallContext context)
+        public override async Task<UserInfo> GetUser(EmailParameter request, ServerCallContext context)
         {
 
             var user = (from data in _dataContext.UserDb
@@ -35,7 +35,7 @@ namespace BackEnd
             {
                 Id = userList.UserList.Count,
                 Uuid = user.Uuid,
-                Name = request.Name,
+                Name = "jeff",
                 Email = request.Email
             });
         }
@@ -45,7 +45,7 @@ namespace BackEnd
             Guid uuid = Guid.NewGuid();
             string stringUuid = uuid.ToString();
             var userList = new UserResponse();
-            var newUser = new UserInfo(){ Uuid = stringUuid, Name = request.Name, Email = request.Email };
+            var newUser = new UserInfo(){ Id = userList.UserList.Count, Uuid = stringUuid, Name = request.Name, Email = request.Email };
             var response = new Empty();
 
             _dataContext.UserDb.Add(newUser);
@@ -56,18 +56,21 @@ namespace BackEnd
             return await Task.FromResult(response);
         }
 
-        public override async Task<ToDoItemList> GetToDoList(Empty request, ServerCallContext context)
+        public override async Task<ToDoItemList> GetToDoList(UuidParameter request, ServerCallContext context)
         {
             var todoList = new ToDoItemList();
             var userInfo = new UserInfo();
 
-            var getTodo = (from data in _dataContext.ToDoListDb
-                           where data.Id == userInfo.Uuid
-                           select data).Single();
+            var getTodo = (from data in _dataContext.ToDoDb
+                           where data.Uuid == userInfo.Uuid
+                           select data).ToList();
 
-            foreach(ToDoStructure todo in getTodo.ToDoList)
+            foreach(ToDoStructure todo in _dataContext.ToDoDb)
             {
-                todoList.ToDoList.Add(todo);
+                if (todo.Uuid == request.Uuid)
+                {
+                    todoList.ToDoList.Add(todo);
+                }
             }
 
             return await Task.FromResult(todoList);
@@ -75,19 +78,19 @@ namespace BackEnd
 
         public override async Task<Empty> AddToDo(ToDoStructure request, ServerCallContext context)
         {
-            var toDoList = new ToDoItemList();
+            var todoList = new ToDoItemList();
             var response = new Empty();
             var userInfo = new UserInfo();
-            var todoList = _dataContext.ToDoListDb.Where(x => x.Id == userInfo.Uuid).First();
             var newTodo = new ToDoStructure()
             {
-                Id = toDoList.ToDoList.Count,
-                Uuid = userInfo.Uuid,
+                Id = todoList.ToDoList.Count,
+                Uuid = request.Uuid,
                 Description = request.Description,
                 IsCompleted = false
             };
 
             todoList.ToDoList.Add(newTodo);
+            await _dataContext.ToDoDb.AddAsync(newTodo);
             await _dataContext.SaveChangesAsync();
 
             return await Task.FromResult(response);

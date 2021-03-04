@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IplF6WfjQCnVEj2b5begkgr3VtyN7XAL7OiMb1NtA8y2pYx0rsv3rqE/SgotadwM99NKDWOACeHATcu6DL4dxA==",
+  "dgSpecHash": "On8aggemIxOpxHNX3sdNLvjKcLSpANjOad+TzJCWZEczd0O2bxyjkA9XH8TdUXHc25zlNHrlp3zOKQDbRmc6qA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bryan\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\grpc.aspnetcore\\2.32.0\\grpc.aspnetcore.2.32.0.nupkg.sha512",

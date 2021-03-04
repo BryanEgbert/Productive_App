@@ -7,9 +7,9 @@ import "google/protobuf/empty.proto";
 package user;
 
 service User {
-    rpc GetUser (UserRequest) returns (UserInfo);
+    rpc GetUser (EmailParameter) returns (UserInfo);
     rpc AddUser (UserRequest) returns (google.protobuf.Empty);
-    rpc GetToDoList (google.protobuf.Empty) returns (ToDoItemList);
+    rpc GetToDoList (UuidParameter) returns (ToDoItemList);
     rpc AddToDo (ToDoStructure) returns (google.protobuf.Empty);
     rpc PutToDo (ToDoStructure) returns (google.protobuf.Empty);
     rpc DeleteToDo (DeleteToDoParameter) returns (google.protobuf.Empty);
@@ -22,15 +22,12 @@ message UserRequest {
     string password = 4;
 }
 
-message ToDoStructure {
-    int32 id = 1;
-    string uuid = 2;
-    string description = 3;
-    bool is_completed = 4;
+message EmailParameter {
+    string email = 1;
 }
 
-message UserResponse {
-    repeated UserInfo userList = 1;
+message UuidParameter {
+    string uuid = 1;
 }
 
 message UserInfo {
@@ -40,8 +37,19 @@ message UserInfo {
     string email = 4;
 }
 
+message UserResponse {
+    repeated UserInfo userList = 1;
+}
+
+message ToDoStructure {
+    int32 id = 1;
+    string uuid = 2;
+    string description = 3;
+    bool is_completed = 4;
+}
+
 message ToDoItemList {
-    string id = 1;
+    int32 id = 1;
     repeated ToDoStructure toDoList = 2;
 }
 

@@ -13,13 +13,13 @@ namespace FrontEnd.Services
         public RepeatedField<ToDoStructure> serverToDoResponse = new RepeatedField<ToDoStructure>();
         public async Task GetUser(string name, string email, string password)
         {
-            var request = new UserRequest { Name = name, Email = email, Password = password };
+            var request = new EmailParameter { Email = email };
             var response = await UserClient.GetUserAsync(request);
         }
         // Fetch to-do list
         public void GetToDoList(int id)
         {
-            var request = new Empty();
+            var request = new UuidParameter() { Uuid = "udpi "};
             var response = UserClient.GetToDoListAsync(request);
         }
         // Add to-do list

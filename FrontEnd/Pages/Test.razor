@@ -6,15 +6,21 @@
 <input placeholder="name" @bind="@name">
 <input placeholder="email" @bind="@email">
 <input type="password" placeholder="password" @bind="@password">
-<button @onclick="@GetUser">Get server response</button>
+<button @onclick="@AddUser">Add user</button>
+<button @onclick="@GetUser">Get user</button>
 <br>
-<input placeholder="to-do description" @bind="@todoDescription">
-<button @onclick="() => AddToDoList(todoDescription)">Get to-do server response</button>
+<input placeholder="to-do id" @bind="@todoId" />
+<input placeholder="to-do description" @bind="@todoDescription" />
+<button @onclick="() => EditToDo(Int32.Parse(todoId), todoDescription)">Update to-do</button>
+<button @onclick="() => AddToDo(todoDescription)">Get to-do server response</button>
+<button @onclick="() => DeleteToDo(Int32.Parse(todoId))">Delete to-do</button>
 <p>Uuid: @serverResponseUuid</p>
 <p>Name: @serverResponseName</p>
 @foreach (var todo in serverTodoResponse)
 {
-    <p>Id: @todo.Id, Uuid: @todo.Uuid, description: @todo.Description, isCompleted: @todo.IsCompleted</p>
+    <input id="checkbox" type="checkbox" @bind="@todo.IsCompleted" @onclick="e => PutToDoIsCompleted(todo.Id, todo.Description, todo.IsCompleted, e)" />
+    <label for="checkbox">Id: @todo.Id, Uuid: @todo.Uuid, description: @todo.Description, isCompleted: @todo.IsCompleted</label>
+    <br />
 }
 
 @code {
@@ -22,35 +28,103 @@
     private string email;
     private string password;
     private string todoDescription;
+    private string todoId;
     private string serverResponseUuid;
     private string serverResponseName;
+    private bool isCompleted;
     private RepeatedField<ToDoStructure> serverTodoResponse = new RepeatedField<ToDoStructure>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUser();
+    }
+
+    private async Task GetUser()
+    {
+        var request = new EmailParameter(){ Email = email };
+        var response = await UserClient.GetUserAsync(request);
+
+        serverResponseUuid = response.Uuid;
+        serverResponseName = response.Name;
+        email = null;
+
+        await InvokeAsync(StateHasChanged);
+        await GetToDoList();
+    }
+
     private async Task AddUser()
     {
         var request = new UserRequest(){ Name = name, Email = email, Password = password };
         var response = await UserClient.AddUserAsync(request);
+        name = null;
+        email = null;
+        password  = null;
 
-        serverResponseUuid = response.Uuid;
-        serverResponseName = response.Name;
-        
         await InvokeAsync(StateHasChanged);
+        await GetUser();
     }
+
     private async Task GetToDoList()
     {
-        var request = new Empty();
+        var request = new UuidParameter(){ Uuid = serverResponseUuid };
         var response = await UserClient.GetToDoListAsync(request);
         serverTodoResponse = response.ToDoList;
     }
-    private async Task AddToDoList(string description)
+    private async Task AddToDo(string description)
     {
         var request = new ToDoStructure()
         { 
-            Id = serverTodoResponse.Count, 
             Uuid = serverResponseUuid, 
             Description = description, 
-            IsCompleted = false
         };
         await UserClient.AddToDoAsync(request);
+        await GetToDoList();
+    }
+
+    private async Task EditToDo(int id, string description)
+    {
+        var request = new ToDoStructure() 
+            { Id = id, Uuid = serverResponseUuid, Description = description};
+
+        todoId = null;
+        todoDescription = null;
+        await InvokeAsync(StateHasChanged);
+
+        await UserClient.PutToDoAsync(request);
+        await GetToDoList();
+    }
+
+    public async Task PutToDoIsCompleted(int id, string description, bool isCompleted, MouseEventArgs e)
+    {
+        if (isCompleted == false && e.Button== 0)
+        {
+            isCompleted = true;
+        } 
+        else if (isCompleted == true && e.Button == 0)
+        {
+            isCompleted = false;
+        }
+
+        var request = new ToDoStructure()
+        { 
+            Id = id, 
+            Uuid = serverResponseUuid,
+            Description = description, 
+            IsCompleted = isCompleted 
+        };
+
+        await UserClient.PutToDoAsync(request);
+        await GetToDoList();
+    }
+
+    public async Task DeleteToDo(int id)
+    {
+        var request = new DeleteToDoParameter() { Id = id };
+
+        todoId = null;
+        await InvokeAsync(StateHasChanged);
+
+        await UserClient.DeleteToDoAsync(request);
         await GetToDoList();
     }
 }

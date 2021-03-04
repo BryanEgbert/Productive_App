@@ -41,14 +41,14 @@ namespace FrontEnd.Pages
         }
         public async Task GetUser()
         {
-            var request = new UserRequest { Name = this.Name, Email = this.Email, Password = this.Password };
+            var request = new EmailParameter { Email = this.Email };
             var response = await UserClient.GetUserAsync(request);
             serverNameResponse = response.Name;
         }
 
         private async Task GetToDoList()
         {
-            var request = new Empty();
+            var request = new UuidParameter() { Uuid = "uspi"};
             var response = await UserClient.GetToDoListAsync(request);
             ServerToDoResponse = response.ToDoList;
         }

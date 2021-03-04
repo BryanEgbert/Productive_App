@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\BackEnd.csproj": {}
+    "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\BackEnd.csproj": {
+    "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\BackEnd.csproj",
+        "projectPath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\bryan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\obj\\",
+        "outputPath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bryan\\AppData\\Roaming\\NuGet\\NuGet.Config"
