@@ -11384,6 +11384,48 @@
         }
       },
       {
+        "HashCode": -609355747,
+        "Kind": "ITagHelper",
+        "Name": "Microsoft.AspNetCore.ApiAuthorization.IdentityServer.ClientParametersTagHelper",
+        "AssemblyName": "Microsoft.AspNetCore.ApiAuthorization.IdentityServer",
+        "Documentation": "\n            <summary>\n            A tag helper for generating client parameters for a given oauth/openid client as data attributes.\n            </summary>\n        ",
+        "CaseSensitive": false,
+        "TagMatchingRules": [
+          {
+            "TagName": "*",
+            "Attributes": [
+              {
+                "Name": "asp-apiauth-parameters"
+              }
+            ]
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "ITagHelper",
+            "Name": "asp-apiauth-parameters",
+            "TypeName": "System.String",
+            "Documentation": "\n            <summary>\n            Gets or sets the client id.\n            </summary>\n        ",
+            "Metadata": {
+              "Common.PropertyName": "ClientId"
+            }
+          },
+          {
+            "Kind": "ITagHelper",
+            "Name": "view-context",
+            "TypeName": "Microsoft.AspNetCore.Mvc.Rendering.ViewContext",
+            "Documentation": "\n            <summary>\n            Gets or sets the ViewContext.\n            </summary>\n        ",
+            "Metadata": {
+              "Common.PropertyName": "ViewContext"
+            }
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "ITagHelper",
+          "Common.TypeName": "Microsoft.AspNetCore.ApiAuthorization.IdentityServer.ClientParametersTagHelper"
+        }
+      },
+      {
         "HashCode": 379793146,
         "Kind": "ITagHelper",
         "Name": "Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper",
@@ -15601,6 +15643,102 @@
     "CSharpLanguageVersion": 900
   },
   "RootNamespace": "BackEnd",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\_ScopeListItem.cshtml",
+      "TargetPath": "Views\\Shared\\_ScopeListItem.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Grants\\Index.cshtml",
+      "TargetPath": "Views\\Grants\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\_ValidationSummary.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationSummary.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\Redirect.cshtml",
+      "TargetPath": "Views\\Shared\\Redirect.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Diagnostics\\Index.cshtml",
+      "TargetPath": "Views\\Diagnostics\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Account\\AccessDenied.cshtml",
+      "TargetPath": "Views\\Account\\AccessDenied.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Device\\Success.cshtml",
+      "TargetPath": "Views\\Device\\Success.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\_Layout.cshtml",
+      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Account\\Login.cshtml",
+      "TargetPath": "Views\\Account\\Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Account\\LoggedOut.cshtml",
+      "TargetPath": "Views\\Account\\LoggedOut.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Device\\UserCodeConfirmation.cshtml",
+      "TargetPath": "Views\\Device\\UserCodeConfirmation.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Home\\Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\Error.cshtml",
+      "TargetPath": "Views\\Shared\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Account\\Logout.cshtml",
+      "TargetPath": "Views\\Account\\Logout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\_ViewStart.cshtml",
+      "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Device\\UserCodeCapture.cshtml",
+      "TargetPath": "Views\\Device\\UserCodeCapture.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Shared\\_Nav.cshtml",
+      "TargetPath": "Views\\Shared\\_Nav.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\bryan\\source\\repos\\Productivity_App\\BackEnd\\Views\\Consent\\Index.cshtml",
+      "TargetPath": "Views\\Consent\\Index.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }

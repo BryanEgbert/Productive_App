@@ -42,25 +42,63 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Google.Protobuf": {
-              "target": "Package",
-              "version": "[3.14.0, )"
-            },
             "Grpc.AspNetCore": {
               "target": "Package",
-              "version": "[2.32.0, )"
+              "version": "[2.35.0, )"
             },
             "Grpc.AspNetCore.Web": {
               "target": "Package",
-              "version": "[2.34.0, )"
+              "version": "[2.35.0, )"
             },
-            "Microsoft.EntityFrameworkCore.InMemory": {
+            "IdentityServer4.AspNetIdentity": {
               "target": "Package",
-              "version": "[5.0.2, )"
+              "version": "[4.1.1, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
               "target": "Package",
-              "version": "[5.0.2, )"
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Google": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[4.0.0, )"
             }
           },
           "imports": [
@@ -121,7 +159,7 @@
           "dependencies": {
             "Google.Protobuf": {
               "target": "Package",
-              "version": "[3.14.0, )"
+              "version": "[3.15.5, )"
             }
           },
           "imports": [

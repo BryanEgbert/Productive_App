@@ -1,28 +1,29 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Global.Protos;
 using Google.Protobuf.WellKnownTypes;
-using Google.Protobuf.Collections;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using BackEnd;
+using BackEnd.Data;
 
 namespace BackEnd
 {
+    [Authorize]
     public class UserService : User.UserBase
     
     {
         private readonly ILogger<UserService> _logger;
-        private readonly UserContext _dataContext;
-        public UserService(ILogger<UserService> logger, UserContext dataContext)
+        private readonly ApplicationDbContext _dataContext;
+        public UserService(ILogger<UserService> logger, ApplicationDbContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;
         }
 
-        public override async Task<UserInfo> GetUser(EmailParameter request, ServerCallContext context)
+        public override async Task<UserInfo> GetUser(LogInParameter request, ServerCallContext context)
         {
 
             var user = (from data in _dataContext.UserDb
@@ -35,7 +36,7 @@ namespace BackEnd
             {
                 Id = userList.UserList.Count,
                 Uuid = user.Uuid,
-                Name = "jeff",
+                Name = request.Username,
                 Email = request.Email
             });
         }
