@@ -22,33 +22,46 @@ namespace FrontEnd.Pages
         public bool CheckboxValue { get; set; }
         public string Description { get; set; }
         public string serverNameResponse { get; set; }
+        public string ServerResponseUuid { get; set; }
+        public string ServerResponseName { get; set; }
         public string ToDoDescription { get; set; }
         public int ToDoId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
         public string Password { get; set; }
         public bool IsClicked { get; set; } = false;
         public string editTodo => IsClicked ? "initial" : "none";
         public string iconDisplay => IsClicked ? "none" : "initial"; 
         public RepeatedField<ToDoStructure> ServerToDoResponse { get; set; } = new RepeatedField<ToDoStructure>();
-        protected override async Task OnInitializedAsync()
-        {
-            await GetToDoList();
-            foreach (var todo in ServerToDoResponse)
-            {
-                ToDoDescription = todo.Description;
-            }
-        }
+
         public async Task GetUser()
         {
-            var request = new EmailParameter { Email = this.Email };
+            var request = new LogInParameter(){ Username = Name, Email = Email };
             var response = await UserClient.GetUserAsync(request);
-            serverNameResponse = response.Name;
+
+            ServerResponseUuid = response.Uuid;
+            ServerResponseName = response.Name;
+            Email = null;
+
+            await InvokeAsync(StateHasChanged);
+            await GetToDoList();
+        }
+
+        public async Task AddUser()
+        {
+            var request = new UserRequest(){ Name = Name, Email = Email, Password = Password };
+            var response = await UserClient.AddUserAsync(request);
+            Name = null;
+            Email = null;
+            Password  = null;
+
+            await InvokeAsync(StateHasChanged);
+            await GetUser();
         }
 
         private async Task GetToDoList()
         {
-            var request = new UuidParameter() { Uuid = "uspi"};
+            var request = new UuidParameter(){ Uuid = ServerResponseUuid };
             var response = await UserClient.GetToDoListAsync(request);
             ServerToDoResponse = response.ToDoList;
         }
@@ -60,12 +73,9 @@ namespace FrontEnd.Pages
             {
                 var request = new ToDoStructure()
                 { 
-                    Id = ServerToDoResponse.Count, 
+                    Uuid = ServerResponseUuid, 
                     Description = this.Description, 
-                    IsCompleted = false 
                 };
-                Description = null;
-
                 await UserClient.AddToDoAsync(request);
                 await GetToDoList();
             } 
@@ -98,6 +108,7 @@ namespace FrontEnd.Pages
             int grpcIndex = ServerToDoResponse.IndexOf(new ToDoStructure() 
             { 
                 Id = todoId, 
+                Uuid = ServerResponseUuid,
                 Description = description, 
                 IsCompleted = isCompleted
             });
@@ -112,8 +123,8 @@ namespace FrontEnd.Pages
             var request = new ToDoStructure()
             { 
                 Id = id, 
+                Uuid = ServerResponseUuid,
                 Description = newDescription, 
-                IsCompleted = isCompleted 
             };
 
             int grpcIndex = ServerToDoResponse.IndexOf(new ToDoStructure() 

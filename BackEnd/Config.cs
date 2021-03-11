@@ -14,7 +14,8 @@ namespace BackEnd
                    {
                         new IdentityResources.OpenId(),
                         new IdentityResources.Profile(),
-                        new IdentityResources.Email()
+                        new IdentityResources.Email(),
+                        new IdentityResource("role", "user role", new List<string>() { "role" })
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -27,24 +28,14 @@ namespace BackEnd
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // m2m client credentials flow client
-                new Client
-                {
-                    ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "scope1" }
-                },
-
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "interactive",
+                    ClientId = "499675830263-ldcg4fm7kcbjlt48tpaffqdbfnskmi8v.apps.googleusercontent.com",
+                    ClientName = "blazor",
                     RequireClientSecret = false,
                     RequirePkce = true,
+                    RequireConsent = true,
 
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedCorsOrigins = { "https://localhost:5001" },
@@ -53,7 +44,7 @@ namespace BackEnd
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2", "email" }
+                    AllowedScopes = { "openid", "profile", "scope2", "email", "role" }
                 },
             };
     }

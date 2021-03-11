@@ -42,10 +42,11 @@ hr {
 }
 
 .topBar img {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     margin: 5px 1em 5px 0px;
     border-radius: 50%;
+    align-self: center;
 }
 
 .topBar img:hover {
@@ -117,6 +118,7 @@ hr {
     flex-direction: column;
     background-color: white;
     box-shadow: 4px 11px 11px 4px rgba(0,0,0,0.3);
+    width: auto
 }
 
 @media only screen and (min-width: 895px) and (max-width: 1000px) {

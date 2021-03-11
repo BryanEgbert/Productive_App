@@ -5,14 +5,21 @@
 
     <div class="topBar">
         <h1 style="margin:auto;">Productivity App</h1>
-        @* <img src="Images/profile_pic.png" @onclick="@showSignInPage"> *@
+        <AuthorizeView Roles="SignedInUser">
+            <NotAuthorized>
+                <img src="Images/profile_pic.png" @onclick="@ShowSignInPage">
+            </NotAuthorized>
+            <Authorized>
+                <img src="@context.User.Claims.FirstOrDefault(e => e.Type == "picture").Value" alt="profile_pic" @onclick="@ShowSignInPage">
+            </Authorized>
+        </AuthorizeView>
     </div>
 
-    @* <PopUpPage Title="Sign Up" IsOpened="@isClicked" OnExit="@hideSignInPage">
+    <PopUpPage Title="Sign Up" IsOpened="@IsClicked" OnExit="@HideSignInPage">
         <Content>
-            <button>sign up</button>
+           <LoginDisplay />
         </Content>
-    </PopUpPage> *@
+    </PopUpPage>
 
     <div class="timer">
         <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
@@ -24,7 +31,7 @@
 
     <div class="aside">
         <div class="title">
-            <strong @onclick="@showModal">Set Timer</strong>
+            <strong @onclick="@ShowModal">Set Timer</strong>
             <h3>To-Do List</h3>
         </div>
         <hr />
@@ -32,7 +39,7 @@
         <TodoList></TodoList>
     </div>
 
-    <PopUpPage Title="Create Costum Timer" IsOpened="@isOpened" OnExit="@hideModal">
+    <PopUpPage Title="Create Costum Timer" IsOpened="@IsOpened" OnExit="@HideModal">
         <Content>
             <div class="modal">
                 <input type="number" id="hoursInput" 
@@ -52,27 +59,39 @@
                 <label for="secondsInput"></label>
             </div>
             <br/>
-            <button class="modal-btn" @onclick="@setTimer">Add</button> 
+            <button class="modal-btn" @onclick="@SetTimer">Add</button> 
         </Content>
     </PopUpPage>
 </div>
 
 @code {
-    @* Code for set timer PopUpPage *@
-    private bool isOpened = false;
-    private void showModal()
+    public bool IsOpened { get; set; } = false; // For set timer popup page
+    public bool IsClicked { get; set; } = false; // For sign-in popup page
+
+    // Function for sign-in popup page
+    public void ShowSignInPage()
     {
-        isOpened = true;
+        IsClicked = true;
     }
-    private void hideModal()
+    public void HideSignInPage()
     {
-        isOpened = false;
+        IsClicked = false;
     }
-    private void setTimer()
+
+    // Function for set timer popup page
+    public void ShowModal()
+    {
+        IsOpened = true;
+    }
+    public void HideModal()
+    {
+        IsOpened = false;
+    }
+    public void SetTimer()
     {
         if (Hours != 0 || Minutes != 0 || Seconds != 0)
         {
-            isOpened = false;
+            IsOpened = false;
         }
         else
         {}

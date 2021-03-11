@@ -19,6 +19,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using IdentityServer4.Configuration;
+using IdentityServer4.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BackEnd
 {
@@ -39,8 +42,6 @@ namespace BackEnd
             var cert = new X509Certificate2(Path.Combine(".", "IdsvCertificate.pfx"), "YouShallNotPass123");
 
             services.AddControllersWithViews();
-            
-            services.AddGrpc();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -49,6 +50,8 @@ namespace BackEnd
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IProfileService, ProfileService>();
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -63,20 +66,39 @@ namespace BackEnd
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
+                .AddProfileService<ProfileService>()
                 .AddAspNetIdentity<ApplicationUser>();
 
-            builder.AddSigningCredential(cert);
+            // builder.AddSigningCredential(cert);
+            builder.AddDeveloperSigningCredential();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication()
-                .AddGoogle(options =>
+                .AddOpenIdConnect("oidc", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    
-                    options.ClientId ="499675830263-ldcg4fm7kcbjlt48tpaffqdbfnskmi8v.apps.googleusercontent.com";
+
+                    options.Authority = "https://accounts.google.com";
+                    options.RequireHttpsMetadata = true;
+                    options.ResponseType = "code";
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                    options.Scope.Add("openid");
+
+                    options.ClientId = "499675830263-ldcg4fm7kcbjlt48tpaffqdbfnskmi8v.apps.googleusercontent.com";
                     options.ClientSecret = "2fxc9srOe8QsRBnhzLIa1pF0";
+                    options.SaveTokens = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role",
+                        ValidateIssuer = true
+                    };
                 });
-            services.AddAuthorization();
+
+                services.AddAuthorization();
+
+                services.AddGrpc();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -89,14 +111,14 @@ namespace BackEnd
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<UserService>();
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapDefaultControllerRoute().RequireAuthorization();
             });
         }
     }

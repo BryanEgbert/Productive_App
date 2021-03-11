@@ -7,7 +7,7 @@ import "google/protobuf/empty.proto";
 package user;
 
 service User {
-    rpc GetUser (EmailParameter) returns (UserInfo);
+    rpc GetUser (LogInParameter) returns (UserInfo);
     rpc AddUser (UserRequest) returns (google.protobuf.Empty);
     rpc GetToDoList (UuidParameter) returns (ToDoItemList);
     rpc AddToDo (ToDoStructure) returns (google.protobuf.Empty);
@@ -22,8 +22,9 @@ message UserRequest {
     string password = 4;
 }
 
-message EmailParameter {
+message LogInParameter {
     string email = 1;
+    string username = 2;
 }
 
 message UuidParameter {

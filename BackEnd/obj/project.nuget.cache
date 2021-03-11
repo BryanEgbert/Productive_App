@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "67jqyq+PZYrLubKmbQWQqSVddbbhFHlTk6aFFMiHfpZBso6GWdxGz7t8pghqYi4cZ0sY8sGE8dK6reTXiP1atA==",
+  "dgSpecHash": "IOrOV0ntK6bRwnQNQIOp5mydUfcVjiBZql5cvk2ibEfi7vsb67BgM1Uis0gDm6Gc4ZHZM3IqNXGWhW7UOA+wFQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\bryan\\source\\repos\\Productivity_App\\backend\\BackEnd.csproj",
   "expectedPackageFiles": [
@@ -28,7 +28,7 @@
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.4\\microsoft.aspnetcore.authentication.google.5.0.4.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.4\\microsoft.aspnetcore.authentication.jwtbearer.5.0.4.nupkg.sha512",
-    "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\3.1.0\\microsoft.aspnetcore.authentication.openidconnect.3.1.0.nupkg.sha512",
+    "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\5.0.4\\microsoft.aspnetcore.authentication.openidconnect.5.0.4.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.authorization\\5.0.4\\microsoft.aspnetcore.authorization.5.0.4.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\5.0.4\\microsoft.aspnetcore.components.webassembly.server.5.0.4.nupkg.sha512",
     "C:\\Users\\bryan\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.4\\microsoft.aspnetcore.cryptography.internal.5.0.4.nupkg.sha512",

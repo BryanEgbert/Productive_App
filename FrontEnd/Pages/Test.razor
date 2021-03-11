@@ -2,6 +2,7 @@
 @inject  User.UserClient UserClient
 @using Google.Protobuf.Collections;
 @using Google.Protobuf.WellKnownTypes;
+@using System.Security.Claims
 
 <input placeholder="name" @bind="@name">
 <input placeholder="email" @bind="@email">
@@ -14,14 +15,26 @@
 <button @onclick="() => EditToDo(Int32.Parse(todoId), todoDescription)">Update to-do</button>
 <button @onclick="() => AddToDo(todoDescription)">Get to-do server response</button>
 <button @onclick="() => DeleteToDo(Int32.Parse(todoId))">Delete to-do</button>
-<p>Uuid: @serverResponseUuid</p>
-<p>Name: @serverResponseName</p>
-@foreach (var todo in serverTodoResponse)
-{
-    <input id="checkbox" type="checkbox" @bind="@todo.IsCompleted" @onclick="e => PutToDoIsCompleted(todo.Id, todo.Description, todo.IsCompleted, e)" />
-    <label for="checkbox">Id: @todo.Id, Uuid: @todo.Uuid, description: @todo.Description, isCompleted: @todo.IsCompleted</label>
-    <br />
-}
+<AuthorizeView>
+    <NotAuthorized>
+        <p>Uuid: @serverResponseUuid</p>
+        <p>Name: @serverResponseName</p>
+        @foreach (var todo in serverTodoResponse)
+        {
+            <input id="checkbox" type="checkbox" @bind="@todo.IsCompleted" @onclick="e => PutToDoIsCompleted(todo.Id, todo.Description, todo.IsCompleted, e)" />
+            <label for="checkbox">Id: @todo.Id, Uuid: @todo.Uuid, description: @todo.Description, isCompleted: @todo.IsCompleted</label>
+            <br />
+        }
+        <p>Not authorized</p>
+    </NotAuthorized>
+    <Authorized>
+        <h2>hello @context.User.Identity.Name</h2>
+         @foreach (var claim in context.User.Claims)
+        {
+            <li><b>@claim.Type</b>: @claim.Value</li>
+        }
+    </Authorized>
+</AuthorizeView>
 
 @code {
     private string name;
@@ -31,17 +44,12 @@
     private string todoId;
     private string serverResponseUuid;
     private string serverResponseName;
-    private bool isCompleted;
     private RepeatedField<ToDoStructure> serverTodoResponse = new RepeatedField<ToDoStructure>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await GetUser();
-    }
-
+    private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+    
     private async Task GetUser()
     {
-        var request = new EmailParameter(){ Email = email };
+        var request = new LogInParameter(){ Username = name, Email = email };
         var response = await UserClient.GetUserAsync(request);
 
         serverResponseUuid = response.Uuid;

@@ -4,6 +4,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy"
+          content=  "base-uri   'self'; 
+                    script-src  'unsafe-inline' 'unsafe-hashes' 'unsafe-eval';
+                    script-src-elem 'unsafe-inline' https://localhost:5001/_framework/blazor.webassembly.js 
+                                    https://localhost:5001/Utils.js 
+                                    https://localhost:5001/_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js
+                                    https://localhost:5001/_framework/dotnet.5.0.0.js;
+                    default-src 'self' https://localhost:5000/;
+                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                    font-src  fonts.gstatic.com;
+                    connect-src 'self' https://localhost:5000/.well-known/openid-configuration
+                                https://localhost:5000/connect/token
+                                ws://127.0.0.1:58196/
+                                ws://127.0.0.1:61709/
+                                ws://127.0.0.1:62380/
+                                https://localhost:5000/connect/userinfo;
+                    worker-src  https://localhost:5001/service-worker.js;
+                    upgrade-insecure-requests;">
     <title>Productivity App</title>
     <base href="/" />
     <link href="FrontEnd.styles.css" rel="stylesheet" />
@@ -18,6 +36,7 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="Utils.js"></script>
+    <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
 </body>
 
 </html>
