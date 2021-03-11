@@ -34,7 +34,7 @@ namespace IdentityServerHost.Quickstart.UI
                 csp += "img-src 'self' https://pbs.twimg.com;";
                 csp += "style-src-elem 'self';";
                 csp += "script-src-elem 'unsafe-inline' https://localhost:5000/lib/bootstrap/dist/js/bootstrap.bundle.min.js https://localhost:5000/lib/jquery/dist/jquery.slim.min.js;";
-                csp += "connect-src 'self' ws://127.0.0.1:57616/;";
+                csp += "connect-src 'self' ws://127.0.0.1:57616/ ws://127.0.0.1:63979/;";
 
                 // once for standards compliant browsers
                 if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))

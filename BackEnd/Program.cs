@@ -43,7 +43,16 @@ namespace BackEnd
                     args = args.Except(new[] { "/seed" }).ToArray();
                 }
 
-                var host = CreateHostBuilder(args).Build();
+                var host = CreateHostBuilder(args)
+                    .ConfigureAppConfiguration((hostContext, builder) =>
+                    {
+                        // Add other providers for JSON, etc.
+
+                        if (hostContext.HostingEnvironment.IsDevelopment())
+                        {
+                            builder.AddUserSecrets<Program>();
+                        }
+                    }).Build();
 
                 if (seed)
                 {

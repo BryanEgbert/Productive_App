@@ -22,6 +22,7 @@ using System.IO;
 using IdentityServer4.Configuration;
 using IdentityServer4.Services;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace BackEnd
 {
@@ -29,6 +30,8 @@ namespace BackEnd
     {
         public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
+        private string _clientId = null;
+        private string _clientSecret = null;
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -40,6 +43,9 @@ namespace BackEnd
         {
 
             var cert = new X509Certificate2(Path.Combine(".", "IdsvCertificate.pfx"), "YouShallNotPass123");
+
+            _clientId = Configuration["OAuth:ClientId"];
+            _clientSecret = Configuration["OAuth:ClientSecret"];
 
             services.AddControllersWithViews();
 
@@ -69,8 +75,8 @@ namespace BackEnd
                 .AddProfileService<ProfileService>()
                 .AddAspNetIdentity<ApplicationUser>();
 
-            // builder.AddSigningCredential(cert);
-            builder.AddDeveloperSigningCredential();
+            builder.AddSigningCredential(cert);
+            // builder.AddDeveloperSigningCredential();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication()
@@ -85,8 +91,8 @@ namespace BackEnd
                     options.Scope.Add("email");
                     options.Scope.Add("openid");
 
-                    options.ClientId = "499675830263-ldcg4fm7kcbjlt48tpaffqdbfnskmi8v.apps.googleusercontent.com";
-                    options.ClientSecret = "2fxc9srOe8QsRBnhzLIa1pF0";
+                    options.ClientId = _clientId;
+                    options.ClientSecret = _clientSecret;
                     options.SaveTokens = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
