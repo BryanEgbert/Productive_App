@@ -1,27 +1,52 @@
+using BackEnd.Models;
 using IdentityModel;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-public class ProfileService : IProfileService
+namespace BackEnd 
 {
-    public ProfileService()
+    public class ProfileService : IProfileService
     {
-    }
 
-    public async Task GetProfileDataAsync(ProfileDataRequestContext context)
-    {
-        var roleClaims = context.Subject.FindAll(JwtClaimTypes.Role);
-        context.IssuedClaims.AddRange(roleClaims);
+        private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        var profileClaims = context.Subject.FindAll(JwtClaimTypes.Profile);
-        context.IssuedClaims.AddRange(profileClaims);
+        public ProfileService(IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory, UserManager<ApplicationUser> userManager)
+        {
+            _claimsFactory = claimsFactory;
+            _userManager = userManager;
+        }
 
-        await Task.CompletedTask;
-    }
+        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
+        {
+            var sub = context.Subject.GetSubjectId();
+            var user = await _userManager.FindByIdAsync(sub);
 
-    public async Task IsActiveAsync(IsActiveContext context)
-    {
-        await Task.CompletedTask;
+            var principal = await _claimsFactory.CreateAsync(user);
+            var claims = principal.Claims.ToList();
+            claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            claims.Add(new Claim(JwtClaimTypes.Role, user.Role ?? "User"));
+
+            context.AddRequestedClaims(context.Subject.Claims);
+            context.IssuedClaims = claims;
+
+            await Task.CompletedTask;
+        }
+
+        public async Task IsActiveAsync(IsActiveContext context)
+        {
+            var sub = context.Subject.GetSubjectId();
+            var user = await _userManager.FindByIdAsync(sub);
+            context.IsActive = user != null;
+
+            await Task.CompletedTask;
+        }
     }
 }

@@ -1,11 +1,9 @@
 using System;
 using System.Timers;
-using Microsoft.AspNetCore.Components;
-using Global;
 
-namespace FrontEnd.BaseComponents
+namespace FrontEnd.Pages
 {
-    public class Timer : ComponentBase
+    public partial class Index
     {
         public int Hours { get; set; } = 0;
         public int Minutes { get; set; } = 0;
@@ -14,6 +12,8 @@ namespace FrontEnd.BaseComponents
         public bool StartButtonIsDisabled { get; set; } = false;
         public bool SetTimerButtonIsDisabled { get; set; } = false;
         private static System.Timers.Timer aTimer;
+
+        // Stop timer
         public void StopTimer()
         {
             aTimer.Stop();
@@ -23,6 +23,7 @@ namespace FrontEnd.BaseComponents
             StartButtonIsDisabled = false;
             SetTimerButtonIsDisabled = false;
         }
+        // Start timer
         public void StartTimer() 
         {
             aTimer = new System.Timers.Timer(1000);
@@ -33,26 +34,34 @@ namespace FrontEnd.BaseComponents
             StartButtonIsDisabled = true;
             SetTimerButtonIsDisabled = true;
         }
+        // Countdown timer function
         public void CountDownTimer(Object source, ElapsedEventArgs e)
         {
             if(Seconds == 0 && Minutes > 0)
             {
                 Minutes -= 1;
                 Seconds = 59;
-            } else if (Minutes == 0 && Seconds == 0 && Hours > 0)
+            } 
+            else if (Minutes == 0 && Seconds == 0 && Hours > 0)
             {
                 Hours -= 1;
                 Minutes = 59;
                 Seconds = 59;
-            } else if (Hours == 0 && Minutes == 0 && Seconds == 0)
+            } 
+            else if (Hours == 0 && Minutes == 0 && Seconds == 0)
             {
                 aTimer.Stop();
                 aTimer.Dispose();
 
+                Hours = hours;
+                Minutes = minutes;
+                Seconds = seconds;
+
                 StopButtonIsDisabled = true;
                 StartButtonIsDisabled = false;
                 SetTimerButtonIsDisabled = false;
-            } else
+            } 
+            else
             {
                 Seconds -= 1;
             }

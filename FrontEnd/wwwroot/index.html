@@ -15,10 +15,8 @@
                     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                     font-src  fonts.gstatic.com;
                     connect-src 'self' https://localhost:5000/.well-known/openid-configuration
+                                ws://127.0.0.1:54312/
                                 https://localhost:5000/connect/token
-                                ws://127.0.0.1:58196/
-                                ws://127.0.0.1:61709/
-                                ws://127.0.0.1:62380/
                                 https://localhost:5000/connect/userinfo;
                     worker-src  https://localhost:5001/service-worker.js;
                     upgrade-insecure-requests;">
@@ -31,7 +29,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body style="margin:0px;">
     <div id="app">Loading...</div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>

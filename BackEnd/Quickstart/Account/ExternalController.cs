@@ -83,6 +83,7 @@ namespace IdentityServerHost.Quickstart.UI
         {
             // read external identity from the temporary cookie
             var result = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
             if (result?.Succeeded != true)
             {
                 throw new Exception("External authentication error");
@@ -90,7 +91,6 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
-                var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
                 _logger.LogDebug("External claims: {@claims}", externalClaims);
             }
 
@@ -108,6 +108,11 @@ namespace IdentityServerHost.Quickstart.UI
             // for the specific protocols used and store them in the local auth cookie.
             // this is typically used to store data needed for signout from those protocols.
             var additionalLocalClaims = new List<Claim>();
+            foreach (var claim in result.Principal.Claims)
+            {
+
+                additionalLocalClaims.Add(claim);
+            }
             var localSignInProps = new AuthenticationProperties();
             ProcessLoginCallback(result, additionalLocalClaims, localSignInProps);
             
@@ -118,14 +123,14 @@ namespace IdentityServerHost.Quickstart.UI
             additionalLocalClaims.AddRange(principal.Claims);
             var name = principal.FindFirst(JwtClaimTypes.Name)?.Value ?? user.Id;
             
-            var isuser = new IdentityServerUser(user.Id)
+            var issuer = new IdentityServerUser(user.Id)
             {
                 DisplayName = name,
                 IdentityProvider = provider,
-                AdditionalClaims = additionalLocalClaims
+                AdditionalClaims = additionalLocalClaims,
             };
 
-            await HttpContext.SignInAsync(isuser, localSignInProps);
+            await HttpContext.SignInAsync(issuer, localSignInProps);
 
             // delete temporary cookie used during external authentication
             await HttpContext.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);

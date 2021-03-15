@@ -23,37 +23,21 @@ namespace BackEnd
             _dataContext = dataContext;
         }
 
-        public override async Task<UserInfo> GetUser(LogInParameter request, ServerCallContext context)
+        public override async Task<Empty> GetUser(UserInfo request, ServerCallContext context)
         {
-
-            var user = (from data in _dataContext.UserDb
-                        where data.Email == request.Email
-                        select data).Single();
-
-            var userList = new UserResponse();
-
-            return await Task.FromResult(new UserInfo()
-            {
-                Id = userList.UserList.Count,
-                Uuid = user.Uuid,
-                Name = request.Username,
-                Email = request.Email
-            });
-        }
-
-        public override async Task<Empty> AddUser(UserRequest request, ServerCallContext context)
-        {
-            Guid uuid = Guid.NewGuid();
-            string stringUuid = uuid.ToString();
-            var userList = new UserResponse();
-            var newUser = new UserInfo(){ Id = userList.UserList.Count, Uuid = stringUuid, Name = request.Name, Email = request.Email };
             var response = new Empty();
 
-            _dataContext.UserDb.Add(newUser);
-            userList.UserList.Add(newUser);
+            if (!_dataContext.UserDb.Any(x => x.Sub == request.Sub))
+            {
+                var userList = new UserResponse();
+                var newUser = new UserInfo(){ Id = userList.UserList.Count, Sub = request.Sub, Uuid = request.Uuid, Email = request.Email };
 
-            await _dataContext.SaveChangesAsync();
+                _dataContext.UserDb.Add(newUser);
+                userList.UserList.Add(newUser);
 
+                await _dataContext.SaveChangesAsync();
+            }
+            
             return await Task.FromResult(response);
         }
 
@@ -66,13 +50,7 @@ namespace BackEnd
                            where data.Uuid == userInfo.Uuid
                            select data).ToList();
 
-            foreach(ToDoStructure todo in _dataContext.ToDoDb)
-            {
-                if (todo.Uuid == request.Uuid)
-                {
-                    todoList.ToDoList.Add(todo);
-                }
-            }
+            todoList.ToDoList.Add(getTodo);
 
             return await Task.FromResult(todoList);
         }
@@ -80,7 +58,6 @@ namespace BackEnd
         public override async Task<Empty> AddToDo(ToDoStructure request, ServerCallContext context)
         {
             var todoList = new ToDoItemList();
-            var response = new Empty();
             var userInfo = new UserInfo();
             var newTodo = new ToDoStructure()
             {
@@ -94,7 +71,7 @@ namespace BackEnd
             await _dataContext.ToDoDb.AddAsync(newTodo);
             await _dataContext.SaveChangesAsync();
 
-            return await Task.FromResult(response);
+            return await Task.FromResult(new Empty());
         }
 
         public override async Task<Empty> PutToDo(ToDoStructure request, ServerCallContext context)
@@ -102,19 +79,20 @@ namespace BackEnd
             var response = new Empty();
             _dataContext.ToDoDb.Update(request);
             await _dataContext.SaveChangesAsync();
+
             return await Task.FromResult(response);
         }
 
         public override async Task<Empty> DeleteToDo(DeleteToDoParameter request, ServerCallContext context)
         {
-            var response = new Empty();
             var item = (from data in _dataContext.ToDoDb
                         where data.Id == request.Id
-                        select data).Single();
+                        select data).First();
                         
             _dataContext.ToDoDb.Remove(item);
             var result = await _dataContext.SaveChangesAsync();
-            return await Task.FromResult(response);
+
+            return await Task.FromResult(new Empty());
             
         }
     } 

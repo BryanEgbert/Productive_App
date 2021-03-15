@@ -21,17 +21,7 @@ namespace FrontEnd
             builder.Services.AddScoped(sp => new HttpClient()
                 { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddScoped(services => 
-            {
-                var httpHandler = new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler());
-                var channel = GrpcChannel.ForAddress("https://localhost:5000", new GrpcChannelOptions
-                    { 
-                        HttpHandler = httpHandler
-                    });
-
-                return new Greeter.GreeterClient(channel);
-            });
-
+            // Connect server to client
             builder.Services.AddScoped(services => 
             {
                 var baseAddressMessageHandler = services.GetRequiredService<BaseAddressAuthorizationMessageHandler>();
@@ -45,10 +35,12 @@ namespace FrontEnd
                 return new User.UserClient(channel);
             });
             
+            // Add Open-ID Connect authentication
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("Authentication:Google", options.ProviderOptions);
-                options.UserOptions.RoleClaim = "SignedInUser";
+                options.UserOptions.RoleClaim = "User";
+                options.ProviderOptions.DefaultScopes.Add("role");
             }).AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
             builder.Services.AddOptions();

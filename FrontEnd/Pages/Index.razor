@@ -1,26 +1,21 @@
 ﻿@page "/"
-@inherits FrontEnd.BaseComponents.Timer
 
 <div class="page">
 
+    @* Header of the page *@
     <div class="topBar">
-        <h1 style="margin:auto;">Productivity App</h1>
-        <AuthorizeView Roles="SignedInUser">
+        <h1 style="margin:0px">Productivity App</h1>
+        <AuthorizeView Roles="User">
             <NotAuthorized>
-                <img src="Images/profile_pic.png" @onclick="@ShowSignInPage">
+                <LoginDisplay />
             </NotAuthorized>
             <Authorized>
-                <img src="@context.User.Claims.FirstOrDefault(e => e.Type == "picture").Value" alt="profile_pic" @onclick="@ShowSignInPage">
+                <div></div>
             </Authorized>
         </AuthorizeView>
     </div>
 
-    <PopUpPage Title="Sign Up" IsOpened="@IsClicked" OnExit="@HideSignInPage">
-        <Content>
-           <LoginDisplay />
-        </Content>
-    </PopUpPage>
-
+    @* Timer button UI *@
     <div class="timer">
         <p>@Hours.ToString("00"):@Minutes.ToString("00"):@Seconds.ToString("00")</p>
         <div class="timerBtn">
@@ -29,6 +24,7 @@
         </div>
     </div>
 
+    @* Side bar - set timer and to-do list *@
     <div class="aside">
         <div class="title">
             <strong @onclick="@ShowModal">Set Timer</strong>
@@ -39,7 +35,8 @@
         <TodoList></TodoList>
     </div>
 
-    <PopUpPage Title="Create Costum Timer" IsOpened="@IsOpened" OnExit="@HideModal">
+    @* Set timer pop-up page *@
+    <PopUpPage Title="Set Timer" IsOpened="@IsOpened" OnExit="@HideModal">
         <Content>
             <div class="modal">
                 <input type="number" id="hoursInput" 
@@ -47,11 +44,13 @@
                     min="0" max="24" 
                     @onchange="(e => Hours = Convert.ToInt32(e.Value))">:
                 <label for="hoursInput"></label>
+
                 <input type="number" id="minutesInput" 
                     value="@Minutes.ToString("00")" 
                     min="0" max="59" 
                     @onchange="(e => Minutes = Convert.ToInt32(e.Value))">:
                 <label for="minutesInput"></label>
+
                 <input type="number" id="secondsInput" 
                     value="@Seconds.ToString("00")" 
                     min="0" max="59" 
@@ -67,6 +66,9 @@
 @code {
     public bool IsOpened { get; set; } = false; // For set timer popup page
     public bool IsClicked { get; set; } = false; // For sign-in popup page
+    public int hours;
+    public int minutes;
+    public int seconds;
 
     // Function for sign-in popup page
     public void ShowSignInPage()
@@ -92,6 +94,9 @@
         if (Hours != 0 || Minutes != 0 || Seconds != 0)
         {
             IsOpened = false;
+            hours = Hours;
+            minutes = Minutes;
+            seconds = Seconds;
         }
         else
         {}

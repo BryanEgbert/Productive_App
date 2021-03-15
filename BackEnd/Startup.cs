@@ -23,6 +23,7 @@ using IdentityServer4.Configuration;
 using IdentityServer4.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace BackEnd
 {
@@ -57,7 +58,6 @@ namespace BackEnd
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IProfileService, ProfileService>();
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -68,8 +68,10 @@ namespace BackEnd
 
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
+                options.UserInteraction = new UserInteractionOptions() { LoginUrl = "/Account/Login", LogoutUrl = "/Account/Logout" };
             })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
                 .AddProfileService<ProfileService>()
@@ -79,27 +81,17 @@ namespace BackEnd
             // builder.AddDeveloperSigningCredential();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            services.AddScoped<IProfileService, ProfileService>();
+
             services.AddAuthentication()
-                .AddOpenIdConnect("oidc", options =>
+                .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                    options.Authority = "https://accounts.google.com";
-                    options.RequireHttpsMetadata = true;
-                    options.ResponseType = "code";
-                    options.Scope.Add("profile");
-                    options.Scope.Add("email");
-                    options.Scope.Add("openid");
 
                     options.ClientId = _clientId;
                     options.ClientSecret = _clientSecret;
                     options.SaveTokens = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        NameClaimType = "name",
-                        RoleClaimType = "role",
-                        ValidateIssuer = true
-                    };
+                    options.ClaimActions.MapJsonKey("role", "role", "string");
                 });
 
                 services.AddAuthorization();

@@ -6,6 +6,7 @@ using Global.Protos;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -17,6 +18,8 @@ namespace FrontEnd.Pages
         private User.UserClient UserClient { get; set; }
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
+        [CascadingParameter] 
+        Task<AuthenticationState> authenticationStateTask { get; set; }
         public string NewDescription { get; set; }
         public bool IsCompleted { get; set; }
         public bool CheckboxValue { get; set; }
@@ -34,37 +37,34 @@ namespace FrontEnd.Pages
         public string iconDisplay => IsClicked ? "none" : "initial"; 
         public RepeatedField<ToDoStructure> ServerToDoResponse { get; set; } = new RepeatedField<ToDoStructure>();
 
+        // Fetch usser from server
         public async Task GetUser()
         {
-            var request = new LogInParameter(){ Username = Name, Email = Email };
-            var response = await UserClient.GetUserAsync(request);
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            if (user.Identity.IsAuthenticated)
+            {
+                var userGuid = user.Claims.FirstOrDefault(c => c.Type == "preferred_username").Value.ToString();
+                var subjectId = Convert.ToInt32(user.Claims.FirstOrDefault(c => c.Type == "sub").Value);
+                var userEmail = user.Claims.FirstOrDefault(c => c.Type == "email").Value;
+                var request = new UserInfo(){ Sub = subjectId, Uuid = userGuid, Email = userEmail };
+                var response = await UserClient.GetUserAsync(request);
 
-            ServerResponseUuid = response.Uuid;
-            ServerResponseName = response.Name;
-            Email = null;
-
-            await InvokeAsync(StateHasChanged);
-            await GetToDoList();
+                await InvokeAsync(StateHasChanged);
+                await GetUser();
+                Console.WriteLine($"UUID: {userGuid}, sub: {subjectId}, Email: {userEmail}");
+            }
         }
 
-        public async Task AddUser()
-        {
-            var request = new UserRequest(){ Name = Name, Email = Email, Password = Password };
-            var response = await UserClient.AddUserAsync(request);
-            Name = null;
-            Email = null;
-            Password  = null;
-
-            await InvokeAsync(StateHasChanged);
-            await GetUser();
-        }
-
+        // Fetch to-do list from server
         private async Task GetToDoList()
         {
             var request = new UuidParameter(){ Uuid = ServerResponseUuid };
             var response = await UserClient.GetToDoListAsync(request);
             ServerToDoResponse = response.ToDoList;
         }
+
+        // Add to-do list to the server
         public async Task AddToDo(KeyboardEventArgs e)
         {
 
@@ -82,6 +82,8 @@ namespace FrontEnd.Pages
             else
             {}
         }
+
+        // Update the checkbox state of the to-do list
         public async Task PutToDoIsCompleted(int id, string description, bool isCompleted, MouseEventArgs e)
         {
             if (isCompleted == false && e.Button== 0)
@@ -103,8 +105,11 @@ namespace FrontEnd.Pages
             await UserClient.PutToDoAsync(request);
             await GetToDoList();
         }
-        public async Task EditToDo(int todoId, string description, bool isCompleted)
+
+        // Edit mode function
+        private async Task EditToDo(int todoId, string description, bool isCompleted)
         {
+            // Get the index of the to-do list
             int grpcIndex = ServerToDoResponse.IndexOf(new ToDoStructure() 
             { 
                 Id = todoId, 
@@ -115,9 +120,12 @@ namespace FrontEnd.Pages
 
             ToDoDescription = ServerToDoResponse[grpcIndex].Description;
 
+            // Make text area appear and focus on text area and edit icon dissapear based on the to-do list index
             await JSRuntime.InvokeVoidAsync("editMode", "edit-icon", "todo-description", "edit-todo", grpcIndex);
             await JSRuntime.InvokeVoidAsync("focusTextArea", todoId.ToString(), ToDoDescription);
         }
+
+        // Update the to-do description
         public async Task PutToDoDescription(int id, string htmlId, string oldDescription, string newDescription, bool isCompleted)
         {
             var request = new ToDoStructure()
@@ -134,11 +142,15 @@ namespace FrontEnd.Pages
                 IsCompleted = isCompleted
             });
 
+            // Text area auto resize function
             await JSRuntime.InvokeVoidAsync("theRealAutoResize", htmlId);
+            // Make text area display to none and edit icon appear base on the to-do list index
             await JSRuntime.InvokeVoidAsync("initialMode", "edit-icon", "todo-description", "edit-todo", grpcIndex);
             await UserClient.PutToDoAsync(request);
             await GetToDoList();
         }
+
+        // Delete to-do
         public async Task DeleteToDo(int id)
         {
             var request = new DeleteToDoParameter(){ Id = id };

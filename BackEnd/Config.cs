@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace BackEnd
@@ -15,7 +17,7 @@ namespace BackEnd
                         new IdentityResources.OpenId(),
                         new IdentityResources.Profile(),
                         new IdentityResources.Email(),
-                        new IdentityResource("role", "user role", new List<string>() { "role" })
+                        new IdentityResource("role", "role", new List<string>() { "role" })
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -23,6 +25,12 @@ namespace BackEnd
             {
                 new ApiScope("scope1"),
                 new ApiScope("scope2"),
+            };
+        
+        public static IEnumerable<ApiResource> ApiResources =>
+            new ApiResource[]
+            {
+                new ApiResource("todo-api", "To-do API", new List<string>() { JwtClaimTypes.Role, JwtClaimTypes.Email })
             };
 
         public static IEnumerable<Client> Clients =>
@@ -36,6 +44,7 @@ namespace BackEnd
                     RequireClientSecret = false,
                     RequirePkce = true,
                     RequireConsent = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
 
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedCorsOrigins = { "https://localhost:5001" },
@@ -44,7 +53,7 @@ namespace BackEnd
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2", "email", "role" }
+                    AllowedScopes = { "openid", "profile", "email", "role" }
                 },
             };
     }
