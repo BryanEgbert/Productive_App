@@ -11,7 +11,7 @@ using BackEnd.Data;
 
 namespace BackEnd
 {
-    [Authorize]
+    [Authorize(Roles="User")]
     public class UserService : User.UserBase
     
     {
@@ -26,16 +26,21 @@ namespace BackEnd
         public override async Task<Empty> GetUser(UserInfo request, ServerCallContext context)
         {
             var response = new Empty();
+            var userList = new UserResponse();
 
             if (!_dataContext.UserDb.Any(x => x.Sub == request.Sub))
             {
-                var userList = new UserResponse();
-                var newUser = new UserInfo(){ Id = userList.UserList.Count, Sub = request.Sub, Uuid = request.Uuid, Email = request.Email };
+                var newUser = new UserInfo(){ Id = userList.UserList.Count, Sub = request.Sub, Email = request.Email };
 
                 _dataContext.UserDb.Add(newUser);
                 userList.UserList.Add(newUser);
 
                 await _dataContext.SaveChangesAsync();
+            }
+            else
+            {
+                var user = _dataContext.UserDb.Single(u => u.Sub == request.Sub);
+                userList.UserList.Add(user);
             }
             
             return await Task.FromResult(response);
@@ -47,7 +52,7 @@ namespace BackEnd
             var userInfo = new UserInfo();
 
             var getTodo = (from data in _dataContext.ToDoDb
-                           where data.Uuid == userInfo.Uuid
+                           where data.Uuid == userInfo.Sub
                            select data).ToList();
 
             todoList.ToDoList.Add(getTodo);

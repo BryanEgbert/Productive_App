@@ -14,9 +14,7 @@ namespace FrontEnd
         {
         }
 
-        public async override ValueTask<ClaimsPrincipal> CreateUserAsync(
-            RemoteUserAccount account,
-            RemoteAuthenticationUserOptions options)
+        public async override ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
         {
             var user = await base.CreateUserAsync(account, options);
 

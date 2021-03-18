@@ -24,7 +24,11 @@ namespace FrontEnd
             // Connect server to client
             builder.Services.AddScoped(services => 
             {
-                var baseAddressMessageHandler = services.GetRequiredService<BaseAddressAuthorizationMessageHandler>();
+                var baseAddressMessageHandler = services.GetRequiredService<AuthorizationMessageHandler>()
+                    .ConfigureHandler(
+                        authorizedUrls: new[] { "https://localhost:5001" }, 
+                        scopes: new[] { "todoApi" }
+                    );
                 baseAddressMessageHandler.InnerHandler = new HttpClientHandler();
                 var httpHandler = new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler());
                 var channel = GrpcChannel.ForAddress("https://localhost:5000", new GrpcChannelOptions
@@ -39,8 +43,8 @@ namespace FrontEnd
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("Authentication:Google", options.ProviderOptions);
-                options.UserOptions.RoleClaim = "User";
                 options.ProviderOptions.DefaultScopes.Add("role");
+                options.UserOptions.RoleClaim = "role";  // Important to get role claim
             }).AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
             builder.Services.AddOptions();

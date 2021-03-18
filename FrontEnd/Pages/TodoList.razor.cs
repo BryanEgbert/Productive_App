@@ -19,7 +19,7 @@ namespace FrontEnd.Pages
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
         [CascadingParameter] 
-        Task<AuthenticationState> authenticationStateTask { get; set; }
+        public Task<AuthenticationState> authenticationStateTask { get; set; }
         public string NewDescription { get; set; }
         public bool IsCompleted { get; set; }
         public bool CheckboxValue { get; set; }
@@ -29,36 +29,44 @@ namespace FrontEnd.Pages
         public string ServerResponseName { get; set; }
         public string ToDoDescription { get; set; }
         public int ToDoId { get; set; }
-        public string Name { get; set; } = "";
-        public string Email { get; set; } = "";
-        public string Password { get; set; }
-        public bool IsClicked { get; set; } = false;
-        public string editTodo => IsClicked ? "initial" : "none";
-        public string iconDisplay => IsClicked ? "none" : "initial"; 
         public RepeatedField<ToDoStructure> ServerToDoResponse { get; set; } = new RepeatedField<ToDoStructure>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            Console.WriteLine($"IsAuthenticated: {user.Identity.IsAuthenticated} |  IsUser: {user.IsInRole("User")}");
+
+            if (user.Identity.IsAuthenticated && user.IsInRole("User"))
+            {
+                await GetUser();
+            }
+        }
 
         // Fetch usser from server
         public async Task GetUser()
         {
             var authState = await authenticationStateTask;
             var user = authState.User;
-            if (user.Identity.IsAuthenticated)
-            {
-                var userGuid = user.Claims.FirstOrDefault(c => c.Type == "preferred_username").Value.ToString();
-                var subjectId = Convert.ToInt32(user.Claims.FirstOrDefault(c => c.Type == "sub").Value);
-                var userEmail = user.Claims.FirstOrDefault(c => c.Type == "email").Value;
-                var request = new UserInfo(){ Sub = subjectId, Uuid = userGuid, Email = userEmail };
-                var response = await UserClient.GetUserAsync(request);
+            var userRole = user.IsInRole("User");
+            var userUuid = user.Claims.FirstOrDefault(c => c.Type == "preferred_username").Value;
+            var subjectId = user.Claims.FirstOrDefault(c => c.Type == "sub").Value;
+            var userEmail = user.Claims.FirstOrDefault(c => c.Type == "email").Value;
+            var request = new UserInfo(){ Sub = subjectId, Email = userEmail };
 
-                await InvokeAsync(StateHasChanged);
-                await GetUser();
-                Console.WriteLine($"UUID: {userGuid}, sub: {subjectId}, Email: {userEmail}");
-            }
+
+            ServerResponseUuid = userUuid;
+
+            await UserClient.GetUserAsync(request);
+            await InvokeAsync(StateHasChanged);
+            await GetToDoList();
         }
 
         // Fetch to-do list from server
         private async Task GetToDoList()
         {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
             var request = new UuidParameter(){ Uuid = ServerResponseUuid };
             var response = await UserClient.GetToDoListAsync(request);
             ServerToDoResponse = response.ToDoList;
@@ -67,20 +75,22 @@ namespace FrontEnd.Pages
         // Add to-do list to the server
         public async Task AddToDo(KeyboardEventArgs e)
         {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            var userUuid = user.Claims.FirstOrDefault(c => c.Type == "Sub").Value;
 
             if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(Description) || 
                 e.Key == "NumpadEnter" && !string.IsNullOrWhiteSpace(Description))
             {
                 var request = new ToDoStructure()
                 { 
-                    Uuid = ServerResponseUuid, 
+                    Uuid = userUuid, 
                     Description = this.Description, 
                 };
                 await UserClient.AddToDoAsync(request);
+                await InvokeAsync(StateHasChanged);
                 await GetToDoList();
             } 
-            else
-            {}
         }
 
         // Update the checkbox state of the to-do list

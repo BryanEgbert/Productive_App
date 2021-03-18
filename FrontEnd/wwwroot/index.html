@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy"
-          content=  "base-uri   'self'; 
-                    script-src  'unsafe-inline' 'unsafe-hashes' 'unsafe-eval';
-                    script-src-elem 'unsafe-inline' https://localhost:5001/_framework/blazor.webassembly.js 
-                                    https://localhost:5001/Utils.js 
-                                    https://localhost:5001/_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js
-                                    https://localhost:5001/_framework/dotnet.5.0.0.js;
-                    default-src 'self' https://localhost:5000/;
-                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-                    font-src  fonts.gstatic.com;
-                    connect-src 'self' https://localhost:5000/.well-known/openid-configuration
-                                ws://127.0.0.1:54312/
-                                https://localhost:5000/connect/token
-                                https://localhost:5000/connect/userinfo;
-                    worker-src  https://localhost:5001/service-worker.js;
-                    upgrade-insecure-requests;">
-    <title>Productivity App</title>
-    <base href="/" />
-    <link href="FrontEnd.styles.css" rel="stylesheet" />
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Security-Policy"
+            content=  "base-uri   'self'; 
+                        script-src  'unsafe-inline' 'unsafe-hashes' 'unsafe-eval';
+                        script-src-elem 'unsafe-inline' 'unsafe-hashes' 
+                                        https://localhost:5001/_framework/blazor.webassembly.js 
+                                        https://localhost:5001/Utils.js 
+                                        https://localhost:5001/_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js
+                                        https://localhost:5001/_framework/dotnet.5.0.0.js;
+                        default-src 'self' https://localhost:5000/;
+                        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                        font-src  fonts.gstatic.com;
+                        connect-src 'self' https://localhost:5000/.well-known/openid-configuration
+                                    ws://127.0.0.1:50298/
+                                    ws://127.0.0.1:54312/
+                                    ws://127.0.0.1:50421/
+                                    ws://127.0.0.1:51047/
+                                    https://localhost:5000/connect/token
+                                    https://localhost:5000/connect/userinfo;
+                        worker-src  https://localhost:5001/service-worker.js;
+                        upgrade-insecure-requests;">
+        <title>Productivity App</title>
+        <base href="/" />
+        <link href="FrontEnd.styles.css" rel="stylesheet" />
+        <link href="manifest.json" rel="manifest" />
+        <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    </head>
 
-<body style="margin:0px;">
-    <div id="app">Loading...</div>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
-    <script src="Utils.js"></script>
-    <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
-</body>
+    <body style="margin:0px;">
+        <div id="app">Loading...</div>
+        <script src="_framework/blazor.webassembly.js"></script>
+        <script>navigator.serviceWorker.register('service-worker.js');</script>
+        <script src="Utils.js"></script>
+        <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+    </body>
 
 </html>

@@ -17,7 +17,7 @@ namespace BackEnd
                         new IdentityResources.OpenId(),
                         new IdentityResources.Profile(),
                         new IdentityResources.Email(),
-                        new IdentityResource("role", "role", new List<string>() { "role" })
+                        new IdentityResource("role", "role", new List<string>() { JwtClaimTypes.Role })
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -30,7 +30,7 @@ namespace BackEnd
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
-                new ApiResource("todo-api", "To-do API", new List<string>() { JwtClaimTypes.Role, JwtClaimTypes.Email })
+                new ApiResource("todoApi", "To-do API", new List<string>() { JwtClaimTypes.Role, JwtClaimTypes.Email })
             };
 
         public static IEnumerable<Client> Clients =>
@@ -53,7 +53,7 @@ namespace BackEnd
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "email", "role" }
+                    AllowedScopes = { "openid", "profile", "email", "role", "todoApi" }
                 },
             };
     }
